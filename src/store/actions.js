@@ -10,5 +10,8 @@ export const actions = {
   },
   insertClient({ commit }, data) {
     commit("INSERT_CLIENT", data);
+  },
+  updateClient({ commit }, data) {
+    commit('UPDATE_CLIENT', data)
   }
 };
