@@ -37,12 +37,11 @@
 
         <b-table-column field="mobile" label="تلفن همراه" sortable centered>{{ props.row.mobile }}</b-table-column>
 
-        <b-table-column
-          field="updated"
-          label="تاریخ بروز رسانی"
-          sortable
-          centered
-        >{{ props.row.updated }}</b-table-column>
+        <b-table-column field="date" label="تاریخ بروز رسانی" sortable centered>
+          <span class="tag is-info rtld">
+            {{ props.row.updated ? new Date(props.row.updated).toLocaleDateString() : '----------' }}
+          </span>
+        </b-table-column>
 
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
           <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
@@ -72,7 +71,7 @@ export default {
       isHoverable: true,
       sortIconSize: "is-small",
       currentPage: 1,
-      perPage: 10
+      perPage: 20
     };
   },
   computed: {
@@ -88,7 +87,7 @@ export default {
   methods: {
     addClient(select) {
       this.$store.dispatch("addCurrentClient", select);
-      this.$router.push("/client/update");
+      this.$router.push("/clients/update");
     },
     isEmpty(arr) {
       if (arr.length > 0) {
