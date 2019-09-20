@@ -99,24 +99,21 @@ const getByID = (id, table) => {
   return data;
 };
 
-const updateUser = (id, name, address, phone, mobile) => {
+const updateUser = ({id, name, address, phone, mobile, created}) => {
+  console.log(id)
   let db = new sqlite.Database("db.sqlite");
-  let data = [];
-  db.serialize(function() {
-    let stmt = db.prepare(`UPDATE users 
-        SET name=?, address=?, phone=?, mobile=? 
-        WHERE id=${id}`);
+  let date = jalali.toJalaali(new Date());
+  let updated = `${date.jy}-${date.jm}-${date.jd}`;
 
-    stmt.run(name, address, phone, mobile);
-    stmt.finalize();
-
-    db.each(`SELECT * FROM users WHERE id=${id}`, function(err, row) {
-      data = [...row];
-    });
-
-    db.close();
-    return data;
-  });
+  db.run(`UPDATE users 
+          SET name=?, address=?, phone=?, mobile=?, created=?, updated=?
+          WHERE id=${id}`,
+          [name, address, phone, mobile, created, updated],
+          function (err) {
+    if (err) console.log(err.message)
+    console.log(`A row has been inserted with rowid ${this.lastID}`);
+  })
+  db.close();
 };
 
 export default {
