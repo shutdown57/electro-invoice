@@ -84,7 +84,7 @@ export default {
         type: "is-success"
       });
       this.$router.push("/");
-      // window.location.reload();
+      window.location.reload();
     },
     persianKeys(evt) {
       if (evt.keyCode == "65") {
