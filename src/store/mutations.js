@@ -7,6 +7,9 @@ export const mutations = {
   async GET_CLIENTS(state) {
     state.allClients = await Database.getClients();
   },
+  async UPDATE_CLIENT(state, client) {
+    await Database.updateUser(client)
+  },
   ADD_CURRENT_CLIENT(state, client) {
     state.oneClient = {
       name: client.name,
