@@ -34,7 +34,7 @@
     </b-field>
 
     <b-field class="has-text-right" label="آدرس">
-      <b-input dir="rtl" pattern="(.*)" validation-message type="textarea" v-bind="user.address"></b-input>
+      <b-input dir="rtl" pattern="(.*)" validation-message type="textarea" v-model="user.address"></b-input>
     </b-field>
     <div class="has-text-centered">
       <b-button size="is-medium" icon-right="plus" type="is-primary" @click="submit" outlined>ذخیره</b-button>
@@ -44,6 +44,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   name: "UpdateClient",
   data() {
@@ -72,16 +73,13 @@ export default {
         });
         return;
       }
-      // await this.$store.dispatch("updateClient", {
-      //   name: this.name,
-      //   phone: this.phone,
-      //   mobile: this.mobile,
-      //   address: this.address
-      // });
+      await this.$store.dispatch("updateClient", this.client);
       this.$buefy.notification.open({
         message: "اطلاعات با موفقیت ذخیره شد",
         type: "is-success"
       });
+      this.$router.push("/");
+      window.location.reload();
     },
     persianKeys(evt) {
       if (evt.keyCode == "65") {
