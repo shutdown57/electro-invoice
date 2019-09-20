@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Home from './views/Home.vue'
+import AddClient from './views/client/AddClient.vue'
+import UpdateClient from './views/client/UpdateClient.vue'
 
 Vue.use(Router)
 
@@ -12,6 +15,16 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/client/create',
+      name: 'AddClient',
+      component: AddClient
+    },
+    {
+      path: '/client/update',
+      name: 'UpdateClient',
+      component: UpdateClient
     },
     {
       path: '/about',
