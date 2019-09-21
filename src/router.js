@@ -2,9 +2,6 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Home from "./views/Home.vue";
-import AddClient from "./views/client/AddClient.vue";
-import UpdateClient from "./views/client/UpdateClient.vue";
-import AllClients from "./views/client/AllClients.vue";
 
 Vue.use(Router);
 
@@ -20,26 +17,37 @@ export default new Router({
     {
       path: "/clients",
       name: "AllClients",
-      component: AllClients
+      component: () => import("./views/client/AllClients.vue")
     },
     {
       path: "/clients/update",
       name: "UpdateClient",
-      component: UpdateClient
+      component: () => import("./views/client/UpdateClient.vue")
     },
     {
       path: "/clients/create",
       name: "AddClient",
-      component: AddClient
+      component: () => import("./views/client/AddClient.vue")
+    },
+    {
+      path: "/products/create",
+      name: "AddProduct",
+      component: () => import("./views/product/AddProduct.vue")
+    },
+    {
+      path: "/products/update",
+      name: "UpdateProduct",
+      component: () => import("./views/product/UpdateProduct.vue")
+    },
+    {
+      path: "/products",
+      name: "AllProducts",
+      component: () => import("./views/product/AllProducts.vue")
     },
     {
       path: "/about",
       name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      component: () => import("./views/About.vue")
     }
   ]
 });
