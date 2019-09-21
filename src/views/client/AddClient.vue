@@ -83,8 +83,9 @@ export default {
         message: "اطلاعات با موفقیت ذخیره شد",
         type: "is-success"
       });
-      this.$router.push("/");
-      window.location.reload();
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 3000);
     },
     persianKeys(evt) {
       if (evt.keyCode == "65") {
