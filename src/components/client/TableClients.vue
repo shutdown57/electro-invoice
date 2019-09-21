@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-table
+    <b-table id="table-client"
       :data="isEmpty(clients) ? [] : clients"
       :paginated="isPaginated"
       :per-page="perPage"
@@ -50,11 +50,13 @@
         <b-table-column field="address" label="آدرس" sortable centered>{{ props.row.address }}</b-table-column>
       </template>
     </b-table>
+    <b-button @click="print">Print test</b-button>
   </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import jsPDF from 'jspdf'
 export default {
   name: "TableClients",
   data() {
@@ -81,7 +83,6 @@ export default {
     })
   },
   async mounted() {
-    this.data = await this.clients[0];
     await this.$store.dispatch("getClients");
   },
   methods: {
@@ -94,6 +95,20 @@ export default {
         return false;
       }
       return true;
+    },
+    print() {
+      let body = document.body.innerHTML
+      let content = document.querySelector('#table-client')
+      document.body.innerHTML = content.outerHTML
+      window.print()
+      document.body.innerHTML = body
+
+      // let pdfName = 'test'; 
+      // let doc = new jsPDF();
+      // console.log(content.outerHTML)
+      // doc.text(content.outerHTML, 10, 10);
+      // doc.autoPrint()
+      // doc.output('dataurlnewwindow');
     }
   }
 };
