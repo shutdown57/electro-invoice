@@ -3,8 +3,8 @@
     <template slot="end">
       <b-navbar-item tag="router-link" :to="{ path: '/about' }">درباره</b-navbar-item>
       <b-navbar-dropdown label="محصولات">
-        <b-navbar-item tag="router-link" :to="{ path: '/client/create' }">ایجاد مشتری</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/client/update' }">ویرایش مشتری</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/products/create' }">ایجاد محصول</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/products' }">ویرایش محصول</b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-dropdown label="فاکتورها">
         <b-navbar-item tag="router-link" :to="{ path: '/client/create' }">ایجاد مشتری</b-navbar-item>
