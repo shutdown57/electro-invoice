@@ -73,12 +73,9 @@ app.on('ready', async () => {
   }
   createWindow()
 
-  setTimeout(() => {
-    Database.init()
-  }, 3000)
-  // const db = new sqlite.Database('db.sqlite')
-  // console.log(db.exec(`CREATE TABLE IF NOT EXISTS users (id INT)`))
-  // db.close()
+  // setTimeout(() => {
+  //   Database.init()
+  // }, 3000)
 })
 
 // Exit cleanly on request from parent process in development mode.
