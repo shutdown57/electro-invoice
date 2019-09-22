@@ -13,10 +13,14 @@
 
 <script>
 import HeaderApp from "./components/HeaderApp";
+import Database from "./mixin/Database";
 
 export default {
   components: {
     HeaderApp
+  },
+  created() {
+    Database.init();
   }
 };
 </script>
