@@ -2,5 +2,6 @@ export default {
     oneClient: {},
     allClients: [],
     oneProduct: {},
-    allProducts: []
+    allProducts: [],
+    oneInvoice: {}
 }
