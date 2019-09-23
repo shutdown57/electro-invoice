@@ -15,10 +15,11 @@
   "dependencies": {
     "buefy": "^0.8.0",
     "core-js": "^2.6.5",
-    "jalaali-js": "^1.1.0",
     "jspdf": "^1.5.3",
+    "moment-jalaali": "^0.8.3",
     "sqlite3": "^4.1.0",
     "vue": "^2.6.10",
+    "vue-persian-datetime-picker": "^2.1.2",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.3"
