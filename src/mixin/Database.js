@@ -1,13 +1,18 @@
 import * as sqlite from "sqlite3";
-import * as jalali from "jalaali-js";
-import * as mmj from 'moment-jalaali'
+import * as mmj from "moment-jalaali";
 // TODO: Implement error handling
-mmj.loadPersian({dialect: 'persian-modern'})
-let old = mmj(new Date()).format('jYYYY/jMM/jDD HH:mm')
-let new_ = mmj('1398/06/31 09:07')
-console.log(new_.diff(old, 'days'))
-console.log(mmj(new Date()).format('jYYYY/jMM/jDD HH:mm'))
+// mmj.loadPersian({ dialect: "persian-modern" });
 
+// let old = mmj("1398/06/31", 'jYYYY/jMM/jDD');
+// console.log(old)
+// let new_ = mmj("1398/07/01", 'jYYYY/jMM/jDD');
+// console.log(new_.diff(old, 'days'))
+// console.log(Math.round(new_.diff(old, "hours") / 24), new_.diff(old, "hours") % 24);
+// console.log(mmj(new Date()).format("jYYYY/jMM/jDD HH:mm"));
+
+/* ############################################################## 
+  Initialize
+*/
 const init = () => {
   let db = new sqlite.Database("db.sqlite");
   db.serialize(() => {
@@ -18,14 +23,14 @@ const init = () => {
             phone TEXT NOT NULL UNIQUE,
             mobile TEXT NOT NULL UNIQUE,
             created TEXT NOT NULL,
-            updated TEXT)`)
-      .run(`CREATE TABLE IF NOT EXISTS products (
+            updated TEXT)`);
+    db.run(`CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL UNIQUE,
             description TEXT,
             created TEXT NOT NULL,
-            updated TEXT)`)
-      .run(`CREATE TABLE IF NOT EXISTS invoices (
+            updated TEXT)`);
+    db.run(`CREATE TABLE IF NOT EXISTS invoices (
             id INTEGER PRIMARY KEY,
             description TEXT,
             invoice_amount REAL NOT NULL,
@@ -40,8 +45,8 @@ const init = () => {
             created TEXT NOT NULL,
             updated TEXT,
             user_id INTEGER,
-            FOREIGN KEY (user_id) REFERENCES users (id))`)
-      .run(`CREATE TABLE IF NOT EXISTS invoice_product (
+            FOREIGN KEY (user_id) REFERENCES users (id))`);
+    db.run(`CREATE TABLE IF NOT EXISTS invoice_product (
             id INTEGER,
             fee REAL NOT NULL,
             price REAL NOT NULL,
@@ -50,16 +55,18 @@ const init = () => {
             product_id INTEGER,
             PRIMARY KEY (invoice_id, product_id),
             FOREIGN KEY (invoice_id) REFERENCES invoices (id),
-            FOREIGN KEY (product_id) REFERENCES product (id))`)
-      .run(`PRAGMA foreign_keys = ON`);
+            FOREIGN KEY (product_id) REFERENCES product (id))`);
+    db.run(`PRAGMA foreign_keys = ON`);
   });
   db.close();
 };
 
+/* ############################################################## 
+  Client
+*/
 const insertClient = ({ name, address, phone, mobile }) => {
   let db = new sqlite.Database("db.sqlite");
-  let date = jalali.toJalaali(new Date());
-  let created = `${date.jy}-${date.jm}-${date.jd}`;
+  let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
 
   db.run(
     `INSERT INTO users
@@ -114,8 +121,7 @@ const getByID = (id, table) => {
 
 const updateClient = ({ id, name, address, phone, mobile, created }) => {
   let db = new sqlite.Database("db.sqlite");
-  let date = jalali.toJalaali(new Date());
-  let updated = `${date.jy}-${date.jm}-${date.jd}`;
+  let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
 
   db.run(
     `UPDATE users 
@@ -129,10 +135,12 @@ const updateClient = ({ id, name, address, phone, mobile, created }) => {
   db.close();
 };
 
+/* ############################################################## 
+  Product
+*/
 const insertProduct = ({ name, description }) => {
   let db = new sqlite.Database("db.sqlite");
-  let date = jalali.toJalaali(new Date());
-  let created = `${date.jy}-${date.jm}-${date.jd}`;
+  let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
 
   db.run(
     `INSERT INTO products
@@ -151,8 +159,7 @@ const insertProduct = ({ name, description }) => {
 
 const updateProduct = ({ id, name, description, created }) => {
   let db = new sqlite.Database("db.sqlite");
-  let date = jalali.toJalaali(new Date());
-  let updated = `${date.jy}-${date.jm}-${date.jd}`;
+  let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
   db.run(
     `UPDATE products 
           SET name=?, description=?, created=?, updated=?
@@ -187,6 +194,55 @@ const getProducts = async () => {
   return data;
 };
 
+/* ############################################################## 
+  Client
+*/
+const insertInvoice = async ({
+  description,
+  invoice_amount,
+  damage_amount,
+  transport_amount,
+  total_amount,
+  rent_period,
+  rent_start,
+  rent_end,
+  ceremony_address,
+  liquidation
+}) => {
+  let db = sqlite.Database("db.sqlite");
+  let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  db.run(
+    `INSERT INTO products
+    (description, invoice_amount, damage_amount, transport_amount,
+      total_amount, rent_period, rent_start, rent_end,
+      ceremony_address, liquidation, created, updated)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      description,
+      invoice_amount,
+      damage_amount,
+      transport_amount,
+      total_amount,
+      rent_period,
+      rent_start,
+      rent_end,
+      ceremony_address,
+      liquidation,
+      created,
+      null
+    ],
+    err => {
+      if (err) {
+        console.log(err.message);
+        return false;
+      }
+    }
+  );
+};
+
+/* ############################################################## 
+  Export Module
+*/
 export default {
   init,
 
@@ -199,5 +255,8 @@ export default {
   // Product
   insertProduct,
   updateProduct,
-  getProducts
+  getProducts,
+
+  // Invoice
+  insertInvoice
 };
