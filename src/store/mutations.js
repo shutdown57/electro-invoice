@@ -41,5 +41,10 @@ export const mutations = {
   },
   async UPDATE_PRODUCT(state, product) {
     await Database.updateProduct(product);
+  },
+
+  // Invoice
+  async INSERT_INVOICE(state, invoice) {
+    await Database.insertInvoice(invoice);
   }
 };
