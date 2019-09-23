@@ -45,6 +45,11 @@ export default new Router({
       component: () => import("./views/product/AllProducts.vue")
     },
     {
+      path: "/invoices/create",
+      name: "AddInvoice",
+      component: () => import("./views/invoice/AddInvoice.vue")
+    },
+    {
       path: "/about",
       name: "about",
       component: () => import("./views/About.vue")
