@@ -20,7 +20,9 @@ export default {
     HeaderApp
   },
   created() {
-    Database.init();
+    setTimeout(() => {
+      Database.init();
+    }, 3000);
   }
 };
 </script>
