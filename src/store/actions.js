@@ -29,5 +29,10 @@ export const actions = {
   },
   updateProduct({ commit }, product) {
     commit("UPDATE_PRODUCT", product);
+  },
+
+  // Invoice
+  insertInvoice({ commit }, invoice) {
+    commit('INSERT_INVOICE', invoice)
   }
 };
