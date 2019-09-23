@@ -13,5 +13,10 @@ export const getters = {
   },
   getProduct(state) {
     return state.oneProduct;
+  },
+
+  // Invoice
+  getInvoice(state) {
+    return state.oneInvoice
   }
 };
