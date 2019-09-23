@@ -30,6 +30,7 @@
 </template>
 
 <script>
+// FIXME: validation message
 import { mapGetters } from "vuex";
 export default {
   name: "AddProduct",
@@ -61,7 +62,7 @@ export default {
         type: "is-success"
       });
       setTimeout(() => {
-        this.$router.push("/");
+        this.$router.push("/products");
       }, 3000);
     }
   }
