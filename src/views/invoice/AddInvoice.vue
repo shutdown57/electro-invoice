@@ -5,41 +5,41 @@
         <thead>
           <tr>
             <th>
-              <abbr title="Position">PId</abbr>
+              <abbr title="شماره">شماره</abbr>
             </th>
-            <th>Product</th>
-            <th>
-              <abbr title="Played">Fee</abbr>
+            <th class="has-text-right">محصول</th>
+            <th class="has-text-right">
+              <abbr title="فی">فی</abbr>
             </th>
-            <th>
-              <abbr title="Drawn">Numbser</abbr>
+            <th class="has-text-right">
+              <abbr title="تعداد">تعداد</abbr>
             </th>
-            <th>
-              <abbr title="Won">Price</abbr>
+            <th class="has-text-right">
+              <abbr title="قیمت">قیمت</abbr>
             </th>
-            <th>
-              <abbr title="Lost">Description</abbr>
+            <th class="has-text-right">
+              <abbr title="توضیحات">توضیحات</abbr>
             </th>
-            <th>Action</th>
+            <th></th>
           </tr>
         </thead>
         <tfoot>
           <tr>
             <th>
-              <abbr title="Position">PId</abbr>
+              <abbr title="Position">شماره</abbr>
             </th>
-            <th>Product</th>
-            <th>
-              <abbr title="Won">Fee</abbr>
+            <th class="has-text-right">محصول</th>
+            <th class="has-text-right">
+              <abbr title="فی">فی</abbr>
             </th>
-            <th>
-              <abbr title="Lost">Number</abbr>
+            <th class="has-text-right">
+              <abbr title="تعداد">تعداد</abbr>
             </th>
-            <th>
-              <abbr title="Drawn">Price</abbr>
+            <th class="has-text-right">
+              <abbr title="قیمت">قیمت</abbr>
             </th>
-            <th>Description</th>
-            <th>Action</th>
+            <th class="has-text-right">توضیحات</th>
+            <th></th>
           </tr>
         </tfoot>
         <tbody>
@@ -48,7 +48,7 @@
             <td>
               <b-select
                 placeholder="Customer"
-                icon="account"
+                icon="cube-outline"
                 v-model="singleProduct.product"
                 rounded
               >
@@ -77,14 +77,20 @@
               <b-input v-model="singleProduct.description"></b-input>
             </td>
             <td>
-              <button @click="removeFromProductList(index)">Remove</button>
+              <button class="button is-danger" @click="removeFromProductList(index)">
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+              </button>
             </td>
           </tr>
         </tbody>
       </table>
     </b-field>
 
-    <button @click="addToProductList">Add row</button>
+    <div class="has-text-right">
+      <button class="button is-success" @click="addToProductList">اضافه کردن محصول</button>
+    </div>
     <hr />
 
     <b-field grouped>
@@ -94,7 +100,7 @@
           type="number"
           pattern="(.*){3,}"
           validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
-          v-model="newInvoice.damage_amount"
+          v-model.number="newInvoice.damage_amount"
           rounded
           required
         ></b-input>
@@ -105,7 +111,7 @@
           type="number"
           pattern="(.*){3,}"
           validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
-          v-model="newInvoice.transport_amount"
+          v-model.number="newInvoice.transport_amount"
           rounded
           required
         ></b-input>
@@ -116,7 +122,7 @@
           type="number"
           pattern="(.*){3,}"
           validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
-          v-model="newInvoice.invoice_amount"
+          v-model.number="newInvoice.invoice_amount"
           rounded
           required
         ></b-input>
@@ -136,10 +142,26 @@
           type="number"
           pattern="(.*){3,}"
           validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
-          v-model="rent_time"
+          v-model.number="rent_time"
           rounded
           required
         ></b-input>
+      </b-field>&nbsp;&nbsp;&nbsp;&nbsp;
+      <b-field class="has-text-right" label="نام مشتری">
+        <b-select
+          placeholder="انتخاب مشتری"
+          v-model="newInvoice.user_id"
+          icon="account"
+          rounded
+          required
+        >
+          <option
+            dir="rtl"
+            v-for="client in clients"
+            :value="client.id"
+            :key="client.id"
+          >{{ client.name }}</option>
+        </b-select>
       </b-field>
     </b-field>
 
@@ -158,7 +180,7 @@
           type="number"
           pattern="(.*){3,}"
           validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
-          v-model="newInvoice.total_amount"
+          v-model.number="total"
           rounded
           required
         ></b-input>
@@ -206,7 +228,8 @@ export default {
         damage_amount: 0,
         rent_end: "",
         rent_start: "",
-        rent_period: 0
+        rent_period: 0,
+        user_id: null
       },
       productList: [
         {
@@ -221,18 +244,36 @@ export default {
   },
   computed: {
     ...mapGetters({
-      products: "getProducts"
+      products: "getProducts",
+      clients: "getClients",
+      invoice: "getInvoice"
     }),
     rent_time: {
       get: function() {
         let end = mmj(this.newInvoice.rent_end, "jYYYY/jMM/jDD");
         let start = mmj(this.newInvoice.rent_start, "jYYYY/jMM/jDD");
-        return end.diff(start, "days") || 0;
+        this.newInvoice.rent_period = end.diff(start, "days") || 0;
+        return this.newInvoice.rent_period;
+      }
+    },
+    total: {
+      get: function() {
+        this.newInvoice.invoice_amount = 0;
+        this.newInvoice.total_amount = 0;
+        this.productList.forEach(el => {
+          this.newInvoice.invoice_amount += el.price;
+        });
+        this.newInvoice.total_amount += this.newInvoice.invoice_amount;
+        this.newInvoice.total_amount += this.newInvoice.transport_amount;
+        this.newInvoice.total_amount += this.newInvoice.damage_amount;
+        return this.newInvoice.total_amount;
       }
     }
   },
-  mounted() {
-    this.$store.dispatch("getProducts");
+  async mounted() {
+    await this.$store.dispatch("getProducts"),
+      await this.$store.dispatch("getClients");
+    await this.$store.dispatch("lastInvoiceId");
   },
   methods: {
     priceCalculation(fee, number) {
@@ -250,23 +291,55 @@ export default {
       this.productList.splice(index, 1);
     },
     async submit() {
-      if (this.newInvoice.name === "") {
+      // Check if product list is empty
+      if (!this.productList[0].product.id) {
         this.$buefy.notification.open({
-          message: "اطلاعات به درستی وارد نشده‌اند",
+          message: "محصولی انتخاب نشده است",
           type: "is-danger"
         });
-        return false;
+        return;
       }
-      //   await this.$store.dispatch("insertProduct", {
-      //     name: this.newInvoice.name,
-      //     description: this.newInvoice.description
-      //   });
+
+      // Check if invoice is empty
+      if (this.newInvoice.total_amount == 0) {
+        this.$buefy.notification.open({
+          message: "اطلاعات به درستی وارد نشده‌اند, هزینه کل صفر است",
+          type: "is-danger"
+        });
+        return;
+      }
+
+      // Insert invoice in database
+      await this.$store.dispatch("insertInvoice", {
+        total_amount: this.newInvoice.total_amount,
+        description: this.newInvoice.description,
+        ceremony_address: this.newInvoice.ceremony_address,
+        liquidation: this.newInvoice.liquidation,
+        invoice_amount: this.newInvoice.invoice_amount,
+        transport_amount: this.newInvoice.transport_amount,
+        damage_amount: this.newInvoice.damage_amount,
+        rent_end: this.newInvoice.rent_end,
+        rent_start: this.newInvoice.rent_start,
+        rent_period: this.newInvoice.rent_period,
+        user_id: this.newInvoice.user_id
+      });
+
+      // Get latest invoice id
+      let latestInvoiceId = this.invoice[0].id ? this.invoice[0].id + 1 : 1;
+
+      // Insert product and invoice info in database
+      this.$store.dispatch("insertInvoiceProduct", {
+        productList: this.productList,
+        latestInvoiceId,
+        user_id: this.newInvoice.user_id
+      });
+
       this.$buefy.notification.open({
         message: "اطلاعات با موفقیت ذخیره شد",
         type: "is-success"
       });
       setTimeout(() => {
-        this.$router.push("/products");
+        this.$router.push("/invoices");
       }, 3000);
     }
   }
