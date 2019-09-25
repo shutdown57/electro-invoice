@@ -33,6 +33,15 @@ export const actions = {
 
   // Invoice
   insertInvoice({ commit }, invoice) {
-    commit('INSERT_INVOICE', invoice)
+    commit("INSERT_INVOICE", invoice);
+  },
+  insertInvoiceProduct({ commit }, { productList, latestInvoiceId, user_id }) {
+    commit("INSERT_INVOICE_PRODUCT", { productList, latestInvoiceId, user_id });
+  },
+  lastInvoiceId({ commit }) {
+    commit("GET_INVOICE");
+  },
+  getInvoices({ commit }) {
+    commit('GET_INVOICES')
   }
 };
