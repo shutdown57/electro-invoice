@@ -18,5 +18,8 @@ export const getters = {
   // Invoice
   getInvoice(state) {
     return state.oneInvoice
+  },
+  getInvoices(state) {
+    return state.allInvoices
   }
 };
