@@ -47,13 +47,15 @@ const init = () => {
             user_id INTEGER,
             FOREIGN KEY (user_id) REFERENCES users (id))`);
     db.run(`CREATE TABLE IF NOT EXISTS invoice_product (
-            id INTEGER,
             fee REAL NOT NULL,
             price REAL NOT NULL,
             number INTEGER DEFAULT 0,
+            description TEXT,
+            user_id INTEGER,
             invoice_id INTEGER,
             product_id INTEGER,
-            PRIMARY KEY (invoice_id, product_id),
+            created TEXT,
+            PRIMARY KEY (user_id, invoice_id, product_id, created),
             FOREIGN KEY (invoice_id) REFERENCES invoices (id),
             FOREIGN KEY (product_id) REFERENCES product (id))`);
     db.run(`PRAGMA foreign_keys = ON`);
@@ -195,7 +197,7 @@ const getProducts = async () => {
 };
 
 /* ############################################################## 
-  Client
+  Invoice
 */
 const insertInvoice = async ({
   description,
@@ -207,16 +209,19 @@ const insertInvoice = async ({
   rent_start,
   rent_end,
   ceremony_address,
-  liquidation
+  liquidation,
+  user_id
 }) => {
-  let db = sqlite.Database("db.sqlite");
+  let db = new sqlite.Database("db.sqlite");
   let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let data = [];
   db.run(
-    `INSERT INTO products
-    (description, invoice_amount, damage_amount, transport_amount,
-      total_amount, rent_period, rent_start, rent_end,
-      ceremony_address, liquidation, created, updated)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO invoices
+    (description, invoice_amount, damage_amount,
+      transport_amount, total_amount, rent_period,
+      rent_start, rent_end, ceremony_address,
+      liquidation, user_id, created, updated)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       description,
       invoice_amount,
@@ -228,17 +233,97 @@ const insertInvoice = async ({
       rent_end,
       ceremony_address,
       liquidation,
+      user_id,
       created,
       null
     ],
     err => {
       if (err) {
         console.log(err.message);
-        return false;
       }
     }
   );
+  db.get(`SELECT * FROM invoices ORDER BY id DESC LIMIT 1`, (err, row) => {
+    if (err) console.log(err);
+    else data.push({ ...row });
+  });
+  db.close();
+  return data[0];
 };
+
+const insertInvoiceProduct = async ({
+  productList,
+  latestInvoiceId,
+  user_id
+}) => {
+  let db = new sqlite.Database("db.sqlite");
+
+  productList.forEach(item => {
+    db.run(
+      `INSERT INTO invoice_product
+      (fee, price, number, description, invoice_id, product_id, user_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        item.fee,
+        item.price,
+        item.number,
+        item.description,
+        latestInvoiceId,
+        item.product.id,
+        user_id
+      ],
+      err => {
+        if (err) console.log(err.message);
+      }
+    );
+  });
+
+  db.close();
+};
+
+const lastInvoiceId = async () => {
+  let db = new sqlite.Database("db.sqlite");
+  let invoice = [];
+
+  db.get(`SELECT * FROM invoices ORDER BY id DESC LIMIT 1`, (err, row) => {
+    if (err) console.log(err);
+    else invoice.push({ ...row });
+  });
+  db.close();
+  return invoice;
+};
+
+const getInvoices = async () => {
+  let db = new sqlite.Database('db.sqlite')
+  let data = []
+
+  db.all(`SELECT * FROM invoices ORDER BY id DESC`, [], (err, result) => {
+    if (err) {
+      console.log(err.message);
+      return [];
+    }
+    result.forEach(row => {
+      data.push({
+        id: row.id,
+        invoice_amount: row.invoice_amount,
+        damage_amount: row.damage_amount,
+        transport_amount: row.transport_amount,
+        total_amount: row.total_amount,
+        rent_period: row.rent_period,
+        rent_start: row.rent_start,
+        rent_end: row.rent_end,
+        ceremony_address: row.ceremony_address,
+        liquidation: row.liquidation,
+        user_id: row.user_id,
+        description: row.description,
+        created: row.created,
+        updated: row.updated
+      });
+    });
+  });
+  db.close();
+  return data;
+}
 
 /* ############################################################## 
   Export Module
@@ -258,5 +343,8 @@ export default {
   getProducts,
 
   // Invoice
-  insertInvoice
+  insertInvoice,
+  insertInvoiceProduct,
+  lastInvoiceId,
+  getInvoices
 };
