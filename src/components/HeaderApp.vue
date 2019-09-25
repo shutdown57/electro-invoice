@@ -8,7 +8,7 @@
       </b-navbar-dropdown>
       <b-navbar-dropdown label="فاکتورها">
         <b-navbar-item tag="router-link" :to="{ path: '/invoices/create' }">ایجاد فاکتور</b-navbar-item>
-        <b-navbar-item tag="router-link" :to="{ path: '/client/update' }">ویرایش مشتری</b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/invoices' }">ویرایش فاکتور</b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-dropdown label="مشتریان">
         <b-navbar-item tag="router-link" :to="{ path: '/clients/create' }">ایجاد مشتری</b-navbar-item>
