@@ -43,5 +43,10 @@ export const actions = {
   },
   getInvoices({ commit }) {
     commit('GET_INVOICES')
+  },
+
+  // PDF
+  generatePdf({ commit }, page) {
+    commit('GENERATE_PDF', page)
   }
 };
