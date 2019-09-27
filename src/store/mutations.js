@@ -1,4 +1,5 @@
 import Database from "../mixin/Database";
+import Print from '../mixin/Print'
 
 export const mutations = {
   // Clients
@@ -62,5 +63,10 @@ export const mutations = {
   },
   async GET_INVOICES(state) {
     state.allInvoices = await Database.getInvoices()
+  },
+
+  // PDF
+  async GENERATE_PDF(state, data) {
+    Print.printCustomers(data)
   }
 };
