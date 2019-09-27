@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-table id="table-client"
+    <b-table
       :data="isEmpty(clients) ? [] : clients"
       :paginated="isPaginated"
       :per-page="perPage"
@@ -56,7 +56,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import jsPDF from 'jspdf'
 export default {
   name: "TableClients",
   data() {
@@ -97,18 +96,7 @@ export default {
       return true;
     },
     print() {
-      let body = document.body.innerHTML
-      let content = document.querySelector('#table-client')
-      document.body.innerHTML = content.outerHTML
-      window.print()
-      document.body.innerHTML = body
-
-      // let pdfName = 'test'; 
-      // let doc = new jsPDF();
-      // console.log(content.outerHTML)
-      // doc.text(content.outerHTML, 10, 10);
-      // doc.autoPrint()
-      // doc.output('dataurlnewwindow');
+      this.$store.dispatch('generatePdf', [...this.clients])
     }
   }
 };
