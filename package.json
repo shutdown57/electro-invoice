@@ -17,6 +17,7 @@
     "core-js": "^2.6.5",
     "jspdf": "^1.5.3",
     "moment-jalaali": "^0.8.3",
+    "print-js": "^1.0.61",
     "sqlite3": "^4.1.0",
     "vue": "^2.6.10",
     "vue-persian-datetime-picker": "^2.1.2",
