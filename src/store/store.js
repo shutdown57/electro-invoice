@@ -1,21 +1,5 @@
-// import Vue from 'vue'
-// import Vuex from 'vuex'
-
-// import { createPersistedState, createSharedMutations } from 'vuex-electron'
-
-// import modules from './modules'
-
-// Vue.use(Vuex)
-
-// export default new Vuex.Store({
-//   modules,
-//   plugins: [
-//     createPersistedState(),
-//     createSharedMutations()
-//   ],
-//   strict: process.env.NODE_ENV !== 'production'
-// })
-
+// Guide: https://jasonwatmore.com/post/2018/07/14/vue-vuex-user-registration-and-login-tutorial-example
+// Documentation: https://vuex.vuejs.org/guide/modules.html
 import Vue from 'vue'
 import Vuex from 'vuex'
 
