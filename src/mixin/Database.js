@@ -1,14 +1,8 @@
+// Documentation: https://www.sqlitetutorial.net/
+// Documentation: https://github.com/jalaali/moment-jalaali
+//                https://talkhabi.github.io/vue-persian-datetime-picker/#/formatting
 import * as sqlite from "sqlite3";
 import * as mmj from "moment-jalaali";
-// TODO: Implement error handling
-// mmj.loadPersian({ dialect: "persian-modern" });
-
-// let old = mmj("1398/06/31", 'jYYYY/jMM/jDD');
-// console.log(old)
-// let new_ = mmj("1398/07/01", 'jYYYY/jMM/jDD');
-// console.log(new_.diff(old, 'days'))
-// console.log(Math.round(new_.diff(old, "hours") / 24), new_.diff(old, "hours") % 24);
-// console.log(mmj(new Date()).format("jYYYY/jMM/jDD HH:mm"));
 
 /* ############################################################## 
   Initialize
