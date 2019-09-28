@@ -98,8 +98,6 @@
         <b-input
           dir="rtl"
           type="number"
-          pattern="(.*){3,}"
-          validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
           v-model.number="newInvoice.damage_amount"
           rounded
           required
@@ -109,8 +107,6 @@
         <b-input
           dir="rtl"
           type="number"
-          pattern="(.*){3,}"
-          validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
           v-model.number="newInvoice.transport_amount"
           rounded
           required
@@ -120,8 +116,6 @@
         <b-input
           dir="rtl"
           type="number"
-          pattern="(.*){3,}"
-          validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
           v-model.number="newInvoice.invoice_amount"
           rounded
           required
@@ -140,8 +134,6 @@
         <b-input
           dir="rtl"
           type="number"
-          pattern="(.*){3,}"
-          validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
           v-model.number="rent_time"
           rounded
           required
@@ -178,8 +170,6 @@
         <b-input
           dir="rtl"
           type="number"
-          pattern="(.*){3,}"
-          validation-message="نام و نام خانوادگی مشتری به زبان فارسی"
           v-model.number="total"
           rounded
           required
@@ -203,8 +193,6 @@
 </template>
 
 <script>
-// FIXME: validation message
-
 import { mapGetters } from "vuex";
 import * as mmj from "moment-jalaali";
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
