@@ -288,8 +288,8 @@ const lastInvoiceId = async () => {
 };
 
 const getInvoices = async () => {
-  let db = new sqlite.Database('db.sqlite')
-  let data = []
+  let db = new sqlite.Database("db.sqlite");
+  let data = [];
 
   db.all(`SELECT * FROM invoices ORDER BY id DESC`, [], (err, result) => {
     if (err) {
@@ -317,7 +317,207 @@ const getInvoices = async () => {
   });
   db.close();
   return data;
-}
+};
+
+const clientInvoices = async user_id => {
+  let db = new sqlite.Database("db.sqlite");
+  let data = [];
+
+  db.all(
+    `SELECT * FROM invoices WHERE user_id=${user_id}
+          ORDER BY id DESC`,
+    [],
+    (err, result) => {
+      if (err) {
+        console.log(err.message);
+        return [];
+      }
+
+      result.forEach(row => {
+        data.push({
+          id: row.id,
+          invoice_amount: row.invoice_amount,
+          damage_amount: row.damage_amount,
+          transport_amount: row.transport_amount,
+          total_amount: row.total_amount,
+          rent_period: row.rent_period,
+          rent_start: row.rent_start,
+          rent_end: row.rent_end,
+          ceremony_address: row.ceremony_address,
+          liquidation: row.liquidation,
+          user_id: row.user_id,
+          description: row.description,
+          created: row.created,
+          updated: row.updated
+        });
+      });
+    }
+  );
+  db.close();
+  return data;
+};
+
+const getInvoiceProducts = async invoice_id => {
+  let db = new sqlite.Database("db.sqlite");
+  let data = [];
+  // GET PRODUCTS AND INVOICES AND INVOICE_PRODUCT
+  // -----------------------------------------------------------
+  // SELECT * FROM invoices, invoice_product, products
+  // WHERE invoices.id=invoice_product.invoice_id
+  // AND products.id=invoice_product.product_id
+  // AND invoices.id=${invoice_id}
+  // -----------------------------------------------------------
+  // SELECT * FROM invoice_product
+  //         INNER JOIN
+  //           invoices
+  //           ON invoice_product.invoice_id=invoices.id
+  //         INNER JOIN
+  //           products
+  //           ON invoice_product.product_id=products.id
+  //         WHERE invoice_id=${invoice_id}
+  db.all(
+    `SELECT invoice_product.fee, invoice_product.price, invoice_product.number,
+    invoice_product.description, invoice_product.user_id, invoice_product.invoice_id,
+    invoice_product.product_id, products.name, products.id
+          FROM invoice_product, products
+          WHERE invoice_product.invoice_id=${invoice_id}
+          AND invoice_product.product_id=products.id`,
+    [],
+    (err, result) => {
+      if (err) {
+        console.log(err.message);
+        return [];
+      }
+      result.forEach(row => {
+        data.push(row);
+      });
+    }
+  );
+  db.close();
+  return data;
+};
+
+const getInvoiceId = async invoice_id => {
+  let db = new sqlite.Database("db.sqlite");
+  let data = [];
+  db.get(
+    `SELECT * FROM invoices
+          WHERE id=${invoice_id}`,
+    [],
+    (err, result) => {
+      if (err) {
+        console.log(err.message);
+        return [];
+      }
+      data.push(result);
+    }
+  );
+  db.close();
+  return data;
+};
+
+const updateInvoice = async ({ invoice, productList }) => {
+  let db = new sqlite.Database("db.sqlite");
+  let products = [];
+  let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+
+  await db.run(
+    `UPDATE invoices
+          SET description=?, invoice_amount=?, damage_amount=?,
+          transport_amount=?, total_amount=?, rent_period=?,
+          rent_start=?, rent_end=?, ceremony_address=?,
+          liquidation=?, created=?, updated=?, user_id=?
+          WHERE id=${invoice.id}`,
+    [
+      invoice.description,
+      invoice.invoice_amount,
+      invoice.damage_amount,
+      invoice.transport_amount,
+      invoice.total_amount,
+      invoice.rent_period,
+      invoice.rent_start,
+      invoice.rent_end,
+      invoice.ceremony_address,
+      invoice.liquidation,
+      invoice.created,
+      updated,
+      invoice.user_id
+    ],
+    err => {
+      if (err) {
+        console.log(err.message);
+      }
+    }
+  );
+
+  // await db.all(
+  //   `SELECT * from invoice_product
+  //         WHERE invoice_id=${invoice.id}`,
+  //   [],
+  //   (err, rows) => {
+  //     if (err) {
+  //       console.log(err.message);
+  //       return [];
+  //     }
+  //     rows.forEach(row => {
+  //       products.push({ ...row });
+  //     });
+  //   }
+  // );
+  console.log(productList);
+  await db.run(`DELETE FROM invoice_product
+                WHERE invoice_id=${invoice.id}`);
+  productList.forEach(item => {
+    db.run(
+      `INSERT INTO invoice_product
+        (fee, price, number, description, invoice_id, product_id, user_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        item.fee,
+        item.price,
+        item.number,
+        item.description,
+        invoice.id,
+        item.product_id,
+        invoice.user_id
+      ],
+      err => {
+        if (err) console.log(err.message);
+      }
+    );
+  });
+  // products.forEach(prod => {
+  //   productList.forEach(el => {
+  //     if (products.includes(el)) {
+  //     db.run(
+  //       `UPDATE invoice_product
+  //             SET fee=?, price=?, number=?, description=?, user_id=?, invoice_id=?, product_id=?
+  //             WHERE product_id=${el.product_id}
+  //             AND invoice_id=${invoice.id}`,
+  //       [
+  //         el.fee,
+  //         el.price,
+  //         el.number,
+  //         el.description,
+  //         el.user_id,
+  //         el.invoice_id,
+  //         el.product_id
+  //       ],
+  //       err => {
+  //         if (err) {
+  //           console.log(err.message);
+  //           return [];
+  //         }
+  //       }
+  //     );
+  //     } else {
+  //       //
+  //     }
+  //   })
+  // });
+
+  db.close();
+};
 
 /* ############################################################## 
   Export Module
@@ -340,5 +540,9 @@ export default {
   insertInvoice,
   insertInvoiceProduct,
   lastInvoiceId,
-  getInvoices
+  getInvoices,
+  clientInvoices,
+  getInvoiceProducts,
+  getInvoiceId,
+  updateInvoice
 };
