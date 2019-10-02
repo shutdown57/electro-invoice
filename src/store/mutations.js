@@ -1,5 +1,5 @@
 import Database from "../mixin/Database";
-import Print from '../mixin/Print'
+import Print from "../mixin/Print";
 
 export const mutations = {
   // Clients
@@ -62,11 +62,38 @@ export const mutations = {
     state.oneInvoice = await Database.lastInvoiceId();
   },
   async GET_INVOICES(state) {
-    state.allInvoices = await Database.getInvoices()
+    state.allInvoices = await Database.getInvoices();
+  },
+  ADD_CURRENT_INVOICE(state, invoice) {
+    state.oneInvoice = {
+      id: invoice.id,
+      description: invoice.description,
+      invoice_amount: invoice.invoice_amount,
+      damage_amount: invoice.damage_amount,
+      transport_amount: invoice.transport_amount,
+      total_amount: invoice.total_amount,
+      rent_period: invoice.rent_period,
+      rent_start: invoice.rent_start,
+      rent_end: invoice.rent_end,
+      ceremony_address: invoice.ceremony_address,
+      liquidation: invoice.liquidation,
+      created: invoice.created,
+      updated: invoice.updated,
+      user_id: invoice.user_id
+    };
+  },
+  async GET_INVOICE_PRODUCTS(state, invoice_id) {
+    state.invoiceProducts = await Database.getInvoiceProducts(invoice_id);
+  },
+  async GET_INVOICE_ID(state, invoice_id) {
+    state.oneInvoice = await Database.getInvoiceId(invoice_id);
+  },
+  async UPDATE_INVOICE(state, {invoice, productList}) {
+    await Database.updateInvoice({invoice, productList});
   },
 
   // PDF
   async GENERATE_PDF(state, data) {
-    Print.printCustomers(data)
+    Print.printCustomers(data);
   }
 };
