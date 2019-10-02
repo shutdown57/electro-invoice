@@ -44,6 +44,18 @@ export const actions = {
   getInvoices({ commit }) {
     commit('GET_INVOICES')
   },
+  addCurrentInvoice({ commit }, invoice) {
+    commit('ADD_CURRENT_INVOICE', invoice)
+  },
+  getInvoiceProducts({ commit }, invoice_id) {
+    commit('GET_INVOICE_PRODUCTS', invoice_id)
+  },
+  getInvoiceId({ commit }, invoice_id) {
+    commit('GET_INVOICE_ID', invoice_id)
+  },
+  updateInvoice({ commit }, {invoice, productList}) {
+    commit('UPDATE_INVOICE', {invoice, productList})
+  },
 
   // PDF
   generatePdf({ commit }, page) {
