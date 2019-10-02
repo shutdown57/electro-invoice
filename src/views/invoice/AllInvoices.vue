@@ -17,7 +17,7 @@
       :hoverable="isHoverable"
       :sort-icon-size="sortIconSize"
       :selected.sync="selected"
-      @click="addClient"
+      @click="addInvoice"
       default-sort="user.first_name"
       aria-next-label="Next page"
       aria-previous-label="Previous page"
@@ -99,9 +99,9 @@ export default {
     })
   },
   methods: {
-    addClient(select) {
-    //   this.$store.dispatch("addCurrentProduct", select);
-    //   this.$router.push("/products/update");
+    addInvoice(select) {
+      this.$store.dispatch("addCurrentInvoice", select);
+      this.$router.push("/invoices/update");
     },
     isEmpty(arr) {
       if (arr.length > 0) {
