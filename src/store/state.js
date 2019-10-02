@@ -4,5 +4,6 @@ export default {
     oneProduct: {},
     allProducts: [],
     oneInvoice: {},
-    allInvoices: []
+    allInvoices: [],
+    invoiceProducts: []
 }
