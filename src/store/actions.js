@@ -58,7 +58,10 @@ export const actions = {
   },
 
   // PDF
-  generatePdf({ commit }, page) {
-    commit('GENERATE_PDF', page)
+  printAllCustomers({ commit }, data) {
+    commit('PRINT_ALL_CUSTOMERS', data)
+  },
+  printOneCustomer({ commit }) {
+    commit('PRINT_ONE_CUSTOMER')
   }
 };
