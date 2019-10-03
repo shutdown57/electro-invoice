@@ -190,6 +190,16 @@ const getProducts = async () => {
   return data;
 };
 
+const deleteProduct = product_id => {
+  let db = new sqlite.Database("db.sqlite");
+
+  db.run(`DELETE FROM products WHERE id=${product_id}`, [], err =>
+    err ? console.log(err.message) : []
+  );
+
+  db.close();
+};
+
 /* ############################################################## 
   Invoice
 */
@@ -548,6 +558,7 @@ export default {
   insertProduct,
   updateProduct,
   getProducts,
+  deleteProduct,
 
   // Invoice
   insertInvoice,
