@@ -93,9 +93,6 @@ export default {
         return false;
       }
       return true;
-    },
-    print() {
-      this.$store.dispatch('generatePdf', [...this.clients])
     }
   }
 };
