@@ -60,6 +60,11 @@ export default new Router({
       component: () => import("./views/invoice/AddInvoice.vue")
     },
     {
+      path: "/invoices/single",
+      name: "SingleInvoice",
+      component: () => import("./views/invoice/SingleInvoice.vue")
+    },
+    {
       path: "/invoices/update",
       name: "UpdateInvoice",
       component: () => import("./views/invoice/UpdateInvoice.vue")
