@@ -56,6 +56,9 @@ export const actions = {
   updateInvoice({ commit }, {invoice, productList}) {
     commit('UPDATE_INVOICE', {invoice, productList})
   },
+  deleteInvoice({ commit }, invoice_id) {
+    commit('DELETE_INVOICE', invoice_id)
+  },
 
   // PDF
   printAllCustomers({ commit }, data) {
