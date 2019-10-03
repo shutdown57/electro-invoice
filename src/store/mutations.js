@@ -91,6 +91,9 @@ export const mutations = {
   async UPDATE_INVOICE(state, {invoice, productList}) {
     await Database.updateInvoice({invoice, productList});
   },
+  async DELETE_INVOICE(state, invoice_id) {
+    await Database.deleteInvoice(invoice_id)
+  },
 
   // PDF
   async PRINT_ALL_CUSTOMERS(state, data) {
