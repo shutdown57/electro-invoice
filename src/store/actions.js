@@ -63,5 +63,11 @@ export const actions = {
   },
   printOneCustomer({ commit }) {
     commit('PRINT_ONE_CUSTOMER')
+  },
+  printAllProducts({ commit }, data) {
+    commit('PRINT_ALL_PRODUCTS', data)
+  },
+  printOneProduct({ commit }) {
+    commit('PRINT_ONE_PRODUCT')
   }
 };
