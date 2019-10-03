@@ -93,7 +93,10 @@ export const mutations = {
   },
 
   // PDF
-  async GENERATE_PDF(state, data) {
-    Print.printCustomers(data);
+  async PRINT_ALL_CUSTOMERS(state, data) {
+    Print.allCustomers(data);
+  },
+  async PRINT_ONE_CUSTOMER() {
+    Print.oneCustomer()
   }
 };
