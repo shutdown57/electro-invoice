@@ -418,7 +418,6 @@ const getInvoiceId = async invoice_id => {
 
 const updateInvoice = async ({ invoice, productList }) => {
   let db = new sqlite.Database("db.sqlite");
-  let products = [];
   let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
 
   await db.run(
@@ -464,7 +463,6 @@ const updateInvoice = async ({ invoice, productList }) => {
   //     });
   //   }
   // );
-  console.log(productList);
   await db.run(`DELETE FROM invoice_product
                 WHERE invoice_id=${invoice.id}`);
   productList.forEach(item => {
@@ -519,6 +517,21 @@ const updateInvoice = async ({ invoice, productList }) => {
   db.close();
 };
 
+const deleteInvoice = invoice_id => {
+  let db = new sqlite.Database("db.sqlite");
+  db.run(
+    `DELETE FROM invoice_product WHERE invoice_id=${invoice_id}`,
+    [],
+    err => (err ? console.log(err.message) : [])
+  );
+
+  db.run(`DELETE FROM invoices WHERE id=${invoice_id}`, [], err =>
+    err ? console.log(err.message) : []
+  );
+
+  db.close();
+};
+
 /* ############################################################## 
   Export Module
 */
@@ -544,5 +557,6 @@ export default {
   clientInvoices,
   getInvoiceProducts,
   getInvoiceId,
-  updateInvoice
+  updateInvoice,
+  deleteInvoice
 };
