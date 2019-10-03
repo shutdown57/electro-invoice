@@ -30,6 +30,9 @@ export const actions = {
   updateProduct({ commit }, product) {
     commit("UPDATE_PRODUCT", product);
   },
+  deleteProduct({ commit }, product_id) {
+    commit('DELETE_PRODUCT', product_id)
+  },
 
   // Invoice
   insertInvoice({ commit }, invoice) {
