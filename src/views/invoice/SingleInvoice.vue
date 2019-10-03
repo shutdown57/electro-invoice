@@ -122,7 +122,7 @@
         <button class="button is-medium is-warning" @click="updateInvoice()">ویرایش</button>
       </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <p class="control has-text-centered">
-        <button class="button is-medium is-danger">حذف</button>
+        <button class="button is-medium is-danger" @click="deleteInvoice()">حذف</button>
       </p>
     </b-field>
   </section>
@@ -152,6 +152,26 @@ export default {
     updateInvoice() {
       this.$store.dispatch("addCurrentInvoice", this.invoice);
       this.$router.push("/invoices/update");
+    },
+    deleteInvoice() {
+      this.$buefy.dialog.confirm({
+        title: "حذف فاکتور",
+        message: "آیا مایل به حذف این فاکتور هستید؟",
+        confirmText: "حذف فاکتور",
+        cancelText: "لغو",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => {
+          this.$store.dispatch("deleteInvoice", this.invoice.id);
+          this.$buefy.notification.open({
+            message: "فاکتور مورد نظر با موفقیت حذف شد",
+            type: "is-success"
+          });
+          setTimeout(() => {
+            this.$router.push("/invoices");
+          }, 3000);
+        }
+      });
     }
   }
 };
