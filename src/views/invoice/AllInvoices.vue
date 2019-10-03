@@ -28,15 +28,35 @@
       <template slot-scope="props">
         <b-table-column field="id" label="شماره" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
 
-        <b-table-column field="name" label="هزینه اجناس" sortable centered>{{ props.row.invoice_amount }}</b-table-column>
-        <b-table-column field="name" label="هزینه خسارت" sortable centered>{{ props.row.damage_amount }}</b-table-column>
-        <b-table-column field="name" label="هزینه حمل و نقل" sortable centered>{{ props.row.transport_amount }}</b-table-column>
+        <b-table-column
+          field="name"
+          label="هزینه اجناس"
+          sortable
+          centered
+        >{{ props.row.invoice_amount }}</b-table-column>
+        <b-table-column
+          field="name"
+          label="هزینه خسارت"
+          sortable
+          centered
+        >{{ props.row.damage_amount }}</b-table-column>
+        <b-table-column
+          field="name"
+          label="هزینه حمل و نقل"
+          sortable
+          centered
+        >{{ props.row.transport_amount }}</b-table-column>
         <b-table-column field="name" label="هزینه کل" sortable centered>{{ props.row.total_amount }}</b-table-column>
         <b-table-column field="name" label="مدت اجاره" sortable centered>{{ props.row.rent_period }}</b-table-column>
-        <b-table-column field="name" label="آدرس مراسم" sortable centered>{{ props.row.ceremony_address }}</b-table-column>
+        <b-table-column
+          field="name"
+          label="آدرس مراسم"
+          sortable
+          centered
+        >{{ props.row.ceremony_address }}</b-table-column>
         <b-table-column field="name" label="تسویه" sortable centered>{{ props.row.liquidation }}</b-table-column>
         <b-table-column field="name" label="نام مشتری" sortable centered>{{ props.row.user_id }}</b-table-column>
-        
+
         <b-table-column field="date" label="تاریخ شروع اجاره" sortable centered>
           <span
             class="tag is-info rtld"
@@ -66,6 +86,11 @@
         >{{ props.row.description }}</b-table-column>
       </template>
     </b-table>
+    <b-field>
+      <p class="control has-text-centered">
+        <button class="button is-medium is-success" @click="print()">چاپ</button>
+      </p>
+    </b-field>
   </section>
 </template>
 
@@ -101,13 +126,16 @@ export default {
   methods: {
     addInvoice(select) {
       this.$store.dispatch("addCurrentInvoice", select);
-      this.$router.push("/invoices/update");
+      this.$router.push("/invoices/single");
     },
     isEmpty(arr) {
       if (arr.length > 0) {
         return false;
       }
       return true;
+    },
+    print() {
+      this.$store.dispatch('printAllInvoices', this.invoices)
     }
   }
 };
