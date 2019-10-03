@@ -104,5 +104,11 @@ export const mutations = {
   },
   async PRINT_ONE_PRODUCT() {
     Print.oneProduct()
+  },
+  async PRINT_ONE_INVOICE() {
+    Print.oneInvoice()
+  },
+  async PRINT_ALL_INVOICES(state, data) {
+    Print.allInvoices(data)
   }
 };
