@@ -1,14 +1,19 @@
 <template>
-      <b-input type="number" :value="priceCalculation()"></b-input>
+      <b-input type="number" :value="priceCalculation()" :disabled=isDisabled></b-input>
 </template>
 
 <script>
 export default {
   name: "PriceCalculation",
-  props: ["fee", "number"],
+  props: ["fee", "number", "disabled"],
   data() {
     return {
       price: 0
+    }
+  },
+  computed: {
+    isDisabled() {
+      return this.$props.disabled || false
     }
   },
   methods: {
