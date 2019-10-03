@@ -40,6 +40,11 @@ export default new Router({
       component: () => import("./views/product/AddProduct.vue")
     },
     {
+      path: "/products/single",
+      name: "SingleProduct",
+      component: () => import("./views/product/SingleProduct.vue")
+    },
+    {
       path: "/products/update",
       name: "UpdateProduct",
       component: () => import("./views/product/UpdateProduct.vue")
