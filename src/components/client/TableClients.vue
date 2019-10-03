@@ -50,7 +50,6 @@
         <b-table-column field="address" label="آدرس" sortable centered>{{ props.row.address }}</b-table-column>
       </template>
     </b-table>
-    <b-button @click="print">Print test</b-button>
   </section>
 </template>
 
@@ -87,7 +86,7 @@ export default {
   methods: {
     addClient(select) {
       this.$store.dispatch("addCurrentClient", select);
-      this.$router.push("/clients/update");
+      this.$router.push("/clients/single");
     },
     isEmpty(arr) {
       if (arr.length > 0) {
