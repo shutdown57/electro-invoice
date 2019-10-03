@@ -26,7 +26,7 @@
         <button class="button is-medium is-warning" @click="updateProduct()">ویرایش</button>
       </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <p class="control has-text-centered">
-        <button class="button is-medium is-danger">حذف</button>
+        <button class="button is-medium is-danger" @click="deleteProduct()">حذف</button>
       </p>
     </b-field>
   </section>
@@ -43,11 +43,31 @@ export default {
   },
   methods: {
     updateProduct() {
-        this.$store.dispatch("addCurrentProduct", this.product);
+      this.$store.dispatch("addCurrentProduct", this.product);
       this.$router.push("/products/update");
     },
     print() {
       this.$store.dispatch("printOneProduct", this.product);
+    },
+    deleteProduct() {
+      this.$buefy.dialog.confirm({
+        title: "حذف محصول",
+        message: "توجه کنید با حذف این محصول فاکتورهایی که این محصول در آنها بوده است دچار تغییر می‌شود<br>آیا مایل به حذف این محصول هستید؟",
+        confirmText: "حذف محصول",
+        cancelText: "لغو",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => {
+          this.$store.dispatch("deleteProduct", this.product.id);
+          this.$buefy.notification.open({
+            message: "محصول مورد نظر با موفقیت حذف شد",
+            type: "is-success"
+          });
+          setTimeout(() => {
+            this.$router.push("/products");
+          }, 3000);
+        }
+      });
     }
   }
 };
