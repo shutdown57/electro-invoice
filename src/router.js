@@ -30,6 +30,11 @@ export default new Router({
       component: () => import("./views/client/AddClient.vue")
     },
     {
+      path: "/clients/single",
+      name: "SingleClient",
+      component: () => import("./views/client/SingleClient.vue")
+    },
+    {
       path: "/products/create",
       name: "AddProduct",
       component: () => import("./views/product/AddProduct.vue")
