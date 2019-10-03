@@ -98,5 +98,11 @@ export const mutations = {
   },
   async PRINT_ONE_CUSTOMER() {
     Print.oneCustomer()
+  },
+  async PRINT_ALL_PRODUCTS(state, data) {
+    Print.allProducts(data)
+  },
+  async PRINT_ONE_PRODUCT() {
+    Print.oneProduct()
   }
 };
