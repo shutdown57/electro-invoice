@@ -48,6 +48,11 @@
         >{{ props.row.description }}</b-table-column>
       </template>
     </b-table>
+    <b-field>
+      <p class="control has-text-centered">
+        <button class="button is-medium is-success" @click="print()">چاپ</button>
+      </p>
+    </b-field>
   </section>
 </template>
 
@@ -83,13 +88,16 @@ export default {
   methods: {
     addClient(select) {
       this.$store.dispatch("addCurrentProduct", select);
-      this.$router.push("/products/update");
+      this.$router.push("/products/single");
     },
     isEmpty(arr) {
       if (arr.length > 0) {
         return false;
       }
       return true;
+    },
+    print() {
+      this.$store.dispatch('printAllProducts', this.products)
     }
   }
 };
