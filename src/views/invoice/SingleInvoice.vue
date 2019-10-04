@@ -131,7 +131,6 @@
 <script>
 import { mapGetters } from "vuex";
 import PriceCalculation from "@/components/invoice/PriceCalculation";
-import SingleData from "../../mixin/SingleData";
 export default {
   name: "SingleInvoice",
   components: {
