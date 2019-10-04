@@ -54,8 +54,10 @@
           sortable
           centered
         >{{ props.row.ceremony_address }}</b-table-column>
-        <b-table-column field="name" label="تسویه" sortable centered>{{ props.row.liquidation }}</b-table-column>
-        <b-table-column field="name" label="نام مشتری" sortable centered>{{ props.row.user_id }}</b-table-column>
+        <b-table-column field="name" label="تسویه" sortable centered>
+          <b-icon :icon="isLiquidation(props.row.liquidation)"></b-icon>
+        </b-table-column>
+        <b-table-column field="name" label="نام مشتری" sortable centered>{{ props.row.name }}</b-table-column>
 
         <b-table-column field="date" label="تاریخ شروع اجاره" sortable centered>
           <span
@@ -135,7 +137,14 @@ export default {
       return true;
     },
     print() {
-      this.$store.dispatch('printAllInvoices', this.invoices)
+      this.$store.dispatch("printAllInvoices", this.invoices);
+    },
+    isLiquidation(liquid) {
+      if (liquid == 1) {
+        return "check";
+      } else if (liquid == 0) {
+        return "close";
+      }
     }
   }
 };
