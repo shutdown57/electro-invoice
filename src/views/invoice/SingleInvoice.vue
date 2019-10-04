@@ -98,11 +98,11 @@
       </b-field>
 
       <b-field horizontal label="نام مشتری">
-        <b-input v-model="invoice.user_id" disabled></b-input>
+        <b-input v-model="invoice.name" disabled></b-input>
       </b-field>
 
       <b-field horizontal label="تسویه حساب">
-        <b-input v-model="invoice.liquidation" disabled></b-input>
+        <b-checkbox v-model="invoice.liquidation" true-value="1" false-value="0" disabled></b-checkbox>
       </b-field>
 
       <b-field horizontal label="آدرس مراسم">
@@ -131,6 +131,7 @@
 <script>
 import { mapGetters } from "vuex";
 import PriceCalculation from "@/components/invoice/PriceCalculation";
+import SingleData from "../../mixin/SingleData";
 export default {
   name: "SingleInvoice",
   components: {
