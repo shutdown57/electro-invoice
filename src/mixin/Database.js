@@ -310,7 +310,13 @@ const getInvoices = async () => {
   let db = new sqlite.Database("db.sqlite");
   let data = [];
 
-  db.all(`SELECT * FROM invoices ORDER BY id DESC`, [], (err, result) => {
+  db.all(`SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
+                invoices.transport_amount, invoices.total_amount,
+                invoices.rent_period, invoices.rent_start, invoices.rent_end,
+                invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+                invoices.description, invoices.created, invoices.updated, users.name
+          FROM invoices, users WHERE invoices.user_id=users.id
+          ORDER BY invoices.id DESC`, [], (err, result) => {
     if (err) {
       console.log(err.message);
       return [];
@@ -330,7 +336,8 @@ const getInvoices = async () => {
         user_id: row.user_id,
         description: row.description,
         created: row.created,
-        updated: row.updated
+        updated: row.updated,
+        name: row.name
       });
     });
   });
