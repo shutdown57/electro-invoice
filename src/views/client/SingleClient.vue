@@ -26,7 +26,7 @@
         <button class="button is-medium is-warning" @click="updateClient()">ویرایش</button>
       </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <p class="control has-text-centered">
-        <button class="button is-medium is-danger">حذف</button>
+        <button class="button is-medium is-danger" @click="deleteClient()">حذف</button>
       </p>
     </b-field>
   </section>
@@ -48,6 +48,27 @@ export default {
     },
     print() {
       this.$store.dispatch("printOneCustomer", this.client);
+    },
+    deleteClient() {
+      this.$buefy.dialog.confirm({
+        title: "حذف مشتری",
+        message:
+          "توجه کنید با حذف این مشتری فاکتورهایی که این مشتری در آنها بوده است دچار تغییر می‌شود<br>آیا مایل به حذف این مشتری هستید؟",
+        confirmText: "حذف مشتری",
+        cancelText: "لغو",
+        type: "is-danger",
+        hasIcon: true,
+        onConfirm: () => {
+          this.$store.dispatch("deleteClient", this.client.id);
+          this.$buefy.notification.open({
+            message: "مشتری مورد نظر با موفقیت حذف شد",
+            type: "is-success"
+          });
+          setTimeout(() => {
+            this.$router.push("/clients");
+          }, 3000);
+        }
+      });
     }
   }
 };
