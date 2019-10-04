@@ -16,6 +16,9 @@ export const actions = {
   updateClient({ commit }, data) {
     commit("UPDATE_CLIENT", data);
   },
+  deleteClient({ commit }, client_id) {
+    commit("DELETE_CLIENT", client_id);
+  },
 
   // Products
   insertProduct({ commit }, product) {
@@ -31,7 +34,7 @@ export const actions = {
     commit("UPDATE_PRODUCT", product);
   },
   deleteProduct({ commit }, product_id) {
-    commit('DELETE_PRODUCT', product_id)
+    commit("DELETE_PRODUCT", product_id);
   },
 
   // Invoice
@@ -45,41 +48,41 @@ export const actions = {
     commit("GET_INVOICE");
   },
   getInvoices({ commit }) {
-    commit('GET_INVOICES')
+    commit("GET_INVOICES");
   },
   addCurrentInvoice({ commit }, invoice) {
-    commit('ADD_CURRENT_INVOICE', invoice)
+    commit("ADD_CURRENT_INVOICE", invoice);
   },
   getInvoiceProducts({ commit }, invoice_id) {
-    commit('GET_INVOICE_PRODUCTS', invoice_id)
+    commit("GET_INVOICE_PRODUCTS", invoice_id);
   },
   getInvoiceId({ commit }, invoice_id) {
-    commit('GET_INVOICE_ID', invoice_id)
+    commit("GET_INVOICE_ID", invoice_id);
   },
-  updateInvoice({ commit }, {invoice, productList}) {
-    commit('UPDATE_INVOICE', {invoice, productList})
+  updateInvoice({ commit }, { invoice, productList }) {
+    commit("UPDATE_INVOICE", { invoice, productList });
   },
   deleteInvoice({ commit }, invoice_id) {
-    commit('DELETE_INVOICE', invoice_id)
+    commit("DELETE_INVOICE", invoice_id);
   },
 
   // PDF
   printAllCustomers({ commit }, data) {
-    commit('PRINT_ALL_CUSTOMERS', data)
+    commit("PRINT_ALL_CUSTOMERS", data);
   },
   printOneCustomer({ commit }) {
-    commit('PRINT_ONE_CUSTOMER')
+    commit("PRINT_ONE_CUSTOMER");
   },
   printAllProducts({ commit }, data) {
-    commit('PRINT_ALL_PRODUCTS', data)
+    commit("PRINT_ALL_PRODUCTS", data);
   },
   printOneProduct({ commit }) {
-    commit('PRINT_ONE_PRODUCT')
+    commit("PRINT_ONE_PRODUCT");
   },
   printOneInvoice({ commit }) {
-    commit('PRINT_ONE_INVOICE')
+    commit("PRINT_ONE_INVOICE");
   },
   printAllInvoices({ commit }, data) {
-    commit('PRINT_ALL_INVOICES', data)
+    commit("PRINT_ALL_INVOICES", data);
   }
 };
