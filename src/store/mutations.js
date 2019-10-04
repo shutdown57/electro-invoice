@@ -23,6 +23,9 @@ export const mutations = {
       mobile: client.mobile
     };
   },
+  async DELETE_CLIENT(state, client_id) {
+    await Database.deleteClient(client_id);
+  },
 
   // Products
   async INSERT_PRODUCT(state, product) {
@@ -44,7 +47,7 @@ export const mutations = {
     await Database.updateProduct(product);
   },
   async DELETE_PRODUCT(state, product_id) {
-    await Database.deleteProduct(product_id)
+    await Database.deleteProduct(product_id);
   },
 
   // Invoice
@@ -91,11 +94,11 @@ export const mutations = {
   async GET_INVOICE_ID(state, invoice_id) {
     state.oneInvoice = await Database.getInvoiceId(invoice_id);
   },
-  async UPDATE_INVOICE(state, {invoice, productList}) {
-    await Database.updateInvoice({invoice, productList});
+  async UPDATE_INVOICE(state, { invoice, productList }) {
+    await Database.updateInvoice({ invoice, productList });
   },
   async DELETE_INVOICE(state, invoice_id) {
-    await Database.deleteInvoice(invoice_id)
+    await Database.deleteInvoice(invoice_id);
   },
 
   // PDF
@@ -103,18 +106,18 @@ export const mutations = {
     Print.allCustomers(data);
   },
   async PRINT_ONE_CUSTOMER() {
-    Print.oneCustomer()
+    Print.oneCustomer();
   },
   async PRINT_ALL_PRODUCTS(state, data) {
-    Print.allProducts(data)
+    Print.allProducts(data);
   },
   async PRINT_ONE_PRODUCT() {
-    Print.oneProduct()
+    Print.oneProduct();
   },
   async PRINT_ONE_INVOICE() {
-    Print.oneInvoice()
+    Print.oneInvoice();
   },
   async PRINT_ALL_INVOICES(state, data) {
-    Print.allInvoices(data)
+    Print.allInvoices(data);
   }
 };
