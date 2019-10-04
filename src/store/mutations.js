@@ -85,7 +85,8 @@ export const mutations = {
       liquidation: invoice.liquidation,
       created: invoice.created,
       updated: invoice.updated,
-      user_id: invoice.user_id
+      user_id: invoice.user_id,
+      name: invoice.name
     };
   },
   async GET_INVOICE_PRODUCTS(state, invoice_id) {
