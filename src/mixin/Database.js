@@ -131,6 +131,15 @@ const updateClient = ({ id, name, address, phone, mobile, created }) => {
   db.close();
 };
 
+const deleteClient = client_id => {
+  let db = new sqlite.Database("db.sqlite");
+  db.run(`DELETE FROM client WHERE id=${client_id}`, [], err =>
+    err ? console.log(err.message) : []
+  );
+
+  db.close();
+};
+
 /* ############################################################## 
   Product
 */
@@ -553,6 +562,7 @@ export default {
   getClients,
   getByID,
   updateClient,
+  deleteClient,
 
   // Product
   insertProduct,
