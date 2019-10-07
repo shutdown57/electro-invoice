@@ -4,15 +4,15 @@
       <b-field horizontal label="نام و نام خانوادگی">
         <b-input name="subject" v-model="client.name" expanded disabled></b-input>
       </b-field>
-
+      
       <b-field horizontal label="تلفن ثابت">
         <b-input name="subject" v-model="client.phone" expanded disabled></b-input>
       </b-field>
-
+      
       <b-field horizontal label="تلفن همراه">
         <b-input name="subject" v-model="client.mobile" expanded disabled></b-input>
       </b-field>
-
+      
       <b-field horizontal label="آدرس">
         <b-input type="textarea" v-model="client.address" disabled></b-input>
       </b-field>
@@ -29,14 +29,23 @@
         <button class="button is-medium is-danger" @click="deleteClient()">حذف</button>
       </p>
     </b-field>
+    <hr>
+    <section dir="ltr">
+      <h3 class="title is-4">لیست فاکتورهای این مشتری</h3>
+      <ClientInvoices></ClientInvoices>
+    </section>
   </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import ClientInvoices from "@/components/invoice/ClientInvoices"
 
 export default {
   name: "SingleClient",
+  components: {
+    ClientInvoices
+  },
   computed: {
     ...mapGetters({
       client: "getClient"
