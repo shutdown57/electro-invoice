@@ -4,6 +4,7 @@ import Buefy from 'buefy'
 import App from './App.vue'
 import router from './router'
 import store from './store/store'
+import 'mdi/scss/materialdesignicons.scss'
 import './assets/scss/app.scss'
 
 Vue.use(Buefy)
