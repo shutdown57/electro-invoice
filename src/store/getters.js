@@ -17,12 +17,18 @@ export const getters = {
 
   // Invoice
   getInvoice(state) {
-    return state.oneInvoice
+    return state.oneInvoice;
   },
   getInvoices(state) {
-    return state.allInvoices
+    return state.allInvoices;
   },
   getInvoiceProduct(state) {
-    return state.invoiceProducts
+    return state.invoiceProducts;
+  },
+  getLiquidationInvoices(state) {
+    return state.liquidationInvoices;
+  },
+  getClientInvoices(state) {
+    return state.clientInvoices
   }
 };
