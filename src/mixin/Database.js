@@ -4,6 +4,8 @@
 import * as sqlite from "sqlite3";
 import * as mmj from "moment-jalaali";
 
+const DB_NAME = "db.sqlite";
+
 /* ############################################################## 
   Initialize
 */
@@ -62,7 +64,7 @@ const init = () => {
 */
 const insertClient = ({ name, address, phone, mobile }) => {
   let db = new sqlite.Database("db.sqlite");
-  let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let created = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
 
   db.run(
     `INSERT INTO users
@@ -117,7 +119,7 @@ const getByID = (id, table) => {
 
 const updateClient = ({ id, name, address, phone, mobile, created }) => {
   let db = new sqlite.Database("db.sqlite");
-  let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let updated = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
 
   db.run(
     `UPDATE users 
@@ -145,7 +147,7 @@ const deleteClient = client_id => {
 */
 const insertProduct = ({ name, description }) => {
   let db = new sqlite.Database("db.sqlite");
-  let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let created = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
 
   db.run(
     `INSERT INTO products
@@ -164,7 +166,7 @@ const insertProduct = ({ name, description }) => {
 
 const updateProduct = ({ id, name, description, created }) => {
   let db = new sqlite.Database("db.sqlite");
-  let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let updated = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
   db.run(
     `UPDATE products 
           SET name=?, description=?, created=?, updated=?
@@ -226,7 +228,7 @@ const insertInvoice = async ({
   user_id
 }) => {
   let db = new sqlite.Database("db.sqlite");
-  let created = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let created = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
   let data = [];
   db.run(
     `INSERT INTO invoices
@@ -310,55 +312,20 @@ const getInvoices = async () => {
   let db = new sqlite.Database("db.sqlite");
   let data = [];
 
-  db.all(`SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
+  db.all(
+    `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
                 invoices.transport_amount, invoices.total_amount,
                 invoices.rent_period, invoices.rent_start, invoices.rent_end,
                 invoices.ceremony_address, invoices.liquidation, invoices.user_id,
                 invoices.description, invoices.created, invoices.updated, users.name
           FROM invoices, users WHERE invoices.user_id=users.id
-          ORDER BY invoices.id DESC`, [], (err, result) => {
-    if (err) {
-      console.log(err.message);
-      return [];
-    }
-    result.forEach(row => {
-      data.push({
-        id: row.id,
-        invoice_amount: row.invoice_amount,
-        damage_amount: row.damage_amount,
-        transport_amount: row.transport_amount,
-        total_amount: row.total_amount,
-        rent_period: row.rent_period,
-        rent_start: row.rent_start,
-        rent_end: row.rent_end,
-        ceremony_address: row.ceremony_address,
-        liquidation: row.liquidation,
-        user_id: row.user_id,
-        description: row.description,
-        created: row.created,
-        updated: row.updated,
-        name: row.name
-      });
-    });
-  });
-  db.close();
-  return data;
-};
-
-const clientInvoices = async user_id => {
-  let db = new sqlite.Database("db.sqlite");
-  let data = [];
-
-  db.all(
-    `SELECT * FROM invoices WHERE user_id=${user_id}
-          ORDER BY id DESC`,
+          ORDER BY invoices.id DESC`,
     [],
     (err, result) => {
       if (err) {
         console.log(err.message);
         return [];
       }
-
       result.forEach(row => {
         data.push({
           id: row.id,
@@ -374,12 +341,42 @@ const clientInvoices = async user_id => {
           user_id: row.user_id,
           description: row.description,
           created: row.created,
-          updated: row.updated
+          updated: row.updated,
+          name: row.name
         });
       });
     }
   );
   db.close();
+  return data;
+};
+
+const clientInvoices = async user_id => {
+  let db = new sqlite.Database("db.sqlite");
+  let data = [];
+  db.all(
+    `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
+          invoices.transport_amount, invoices.total_amount,
+          invoices.rent_period, invoices.rent_start, invoices.rent_end,
+          invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+          invoices.description, invoices.created, invoices.updated, users.name
+    FROM invoices, users WHERE invoices.user_id=users.id
+    AND invoices.user_id=${user_id}
+    ORDER BY invoices.id DESC`,
+    [],
+    (err, result) => {
+      if (err) {
+        console.log(err.message);
+        return
+      }
+
+      result.forEach(row => {
+        data.push({ ...row });
+      });
+    }
+  );
+  db.close();
+  console.log(data);
   return data;
 };
 
@@ -444,7 +441,7 @@ const getInvoiceId = async invoice_id => {
 
 const updateInvoice = async ({ invoice, productList }) => {
   let db = new sqlite.Database("db.sqlite");
-  let updated = mmj(new Date()).format("jYYYY/jMM/jDD HH:mm");
+  let updated = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
 
   await db.run(
     `UPDATE invoices
@@ -558,6 +555,33 @@ const deleteInvoice = invoice_id => {
   db.close();
 };
 
+const liquidationInvoices = async () => {
+  let db = new sqlite.Database(DB_NAME);
+  let data = [];
+  await db.all(
+    `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
+          invoices.transport_amount, invoices.total_amount,
+          invoices.rent_period, invoices.rent_start, invoices.rent_end,
+          invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+          invoices.description, invoices.created, invoices.updated, users.name
+      FROM invoices, users WHERE invoices.user_id=users.id
+      AND invoices.liquidation=0
+      ORDER BY invoices.id DESC`,
+    [],
+    (err, rows) => {
+      if (err) {
+        console.log(err.message);
+        return;
+      }
+      rows.forEach(row => {
+        data.push({ ...row });
+      });
+    }
+  );
+  db.close();
+  return data;
+};
+
 /* ############################################################## 
   Export Module
 */
@@ -586,5 +610,6 @@ export default {
   getInvoiceProducts,
   getInvoiceId,
   updateInvoice,
-  deleteInvoice
+  deleteInvoice,
+  liquidationInvoices
 };
