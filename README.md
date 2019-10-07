@@ -1,4 +1,4 @@
-# new2
+# Electro Invoice
 
 ## Project setup
 ```
