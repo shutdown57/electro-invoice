@@ -101,6 +101,12 @@ export const mutations = {
   async DELETE_INVOICE(state, invoice_id) {
     await Database.deleteInvoice(invoice_id);
   },
+  async LIQUIDATION_INVOICES(state) {
+    state.liquidationInvoices = await Database.liquidationInvoices();
+  },
+  async GET_CLIENT_INVOICES(state, user_id) {
+    state.clientInvoices = await Database.clientInvoices(user_id)
+  },
 
   // PDF
   async PRINT_ALL_CUSTOMERS(state, data) {
