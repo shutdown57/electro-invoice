@@ -2,27 +2,32 @@
 
 ## Project setup
 ```
-npm install
+yarn install
+```
+
+### Get ready for sqlite3
+```
+yarn electron-builder install-app-deps
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn electron:serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+yarn electron:build
 ```
 
 ### Run your tests
 ```
-npm run test
+yarn test
 ```
 
 ### Lints and fixes files
 ```
-npm run lint
+yarn lint
 ```
 
 ### Customize configuration
