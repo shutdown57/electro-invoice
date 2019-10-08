@@ -5,6 +5,8 @@ import {
   createProtocol,
   installVueDevtools
 } from "vue-cli-plugin-electron-builder/lib";
+import path from 'path'
+/* global __static */
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -20,13 +22,14 @@ protocol.registerSchemesAsPrivileged([
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    frame: false,
-    titleBarStyle: 'hidden',
+    width: 1000,
+    height: 70,
+    frame: true,
+    titleBarStyle: "hidden",
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: path.join(__static, 'icon.png')
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
