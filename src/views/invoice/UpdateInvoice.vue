@@ -79,7 +79,7 @@
             <td>
               <button class="button is-danger" @click="removeFromProductList(index)">
                 <span class="icon is-small">
-                  <i class="fas fa-times"></i>
+                  <b-icon icon="close"></b-icon>
                 </span>
               </button>
             </td>
@@ -144,6 +144,20 @@
       </b-field>
       <b-field class="has-text-right" label="هزینه کل" expanded>
         <b-input dir="rtl" type="number" v-model.number="total" rounded required></b-input>
+      </b-field>
+    </b-field>
+
+    <b-field grouped>
+      <b-field class="has-text-right" label="تخفیف" expanded>
+        <b-input dir="rtl" type="number" v-model.number="invoice.discount" rounded></b-input>
+      </b-field>
+
+      <b-field class="has-text-right" label="بیعانه" expanded>
+        <b-input dir="rtl" type="number" v-model.number="invoice.deposit_amount" rounded></b-input>
+      </b-field>
+
+      <b-field class="has-text-right" label="مبلغ پرداختنی" expanded required>
+        <b-input dir="rtl" type="number" v-model.number="payable" rounded></b-input>
       </b-field>
     </b-field>
 
@@ -221,6 +235,15 @@ export default {
         this.invoice.total_amount += this.invoice.damage_amount;
         return this.invoice.total_amount;
       }
+    },
+    payable: {
+      get: function() {
+        this.invoice.payable_amount = 0;
+        this.invoice.payable_amount =
+          this.invoice.total_amount - this.invoice.discount;
+        this.invoice.payable_amount -= this.invoice.deposit_amount;
+        return this.invoice.payable_amount;
+      }
     }
   },
   async mounted() {
@@ -237,7 +260,7 @@ export default {
         fee: 0,
         price: 0,
         number: 0,
-        description: "",
+        description: ""
       });
     },
     removeFromProductList(index) {
@@ -253,7 +276,7 @@ export default {
         return;
       }
 
-      let list = []
+      let list = [];
       this.invoiceProducts.forEach(el => {
         list.push({
           fee: el.fee,
@@ -261,12 +284,13 @@ export default {
           number: el.number,
           description: el.description,
           user_id: this.invoice.user_id,
-          product_id: (el.product_id != undefined) ? el.product_id : el.product.id,
-          name: (el.name != undefined) ? el.name : el.product.name,
-          invoice_id: this.invoice.id,
-        })
-      })
-      
+          product_id:
+            el.product_id != undefined ? el.product_id : el.product.id,
+          name: el.name != undefined ? el.name : el.product.name,
+          invoice_id: this.invoice.id
+        });
+      });
+
       // Check if invoice is empty
       if (this.invoice.total_amount == 0) {
         this.$buefy.notification.open({
