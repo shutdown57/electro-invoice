@@ -30,6 +30,9 @@ const init = () => {
             id INTEGER PRIMARY KEY,
             description TEXT,
             invoice_amount REAL NOT NULL,
+            payable_amount REAL NOT NULL,
+            discount REAL,
+            deposit_amount REAL,
             damage_amount REAL NOT NULL,
             transport_amount REAL NOT NULL,
             total_amount REAL NOT NULL,
@@ -225,6 +228,9 @@ const insertInvoice = async ({
   rent_end,
   ceremony_address,
   liquidation,
+  payable_amount,
+  discount,
+  deposit_amount,
   user_id
 }) => {
   let db = new sqlite.Database("db.sqlite");
@@ -235,8 +241,9 @@ const insertInvoice = async ({
     (description, invoice_amount, damage_amount,
       transport_amount, total_amount, rent_period,
       rent_start, rent_end, ceremony_address,
+      payable_amount, discount, deposit_amount,
       liquidation, user_id, created, updated)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       description,
       invoice_amount,
@@ -247,6 +254,9 @@ const insertInvoice = async ({
       rent_start,
       rent_end,
       ceremony_address,
+      payable_amount,
+      discount,
+      deposit_amount,
       liquidation,
       user_id,
       created,
@@ -317,6 +327,7 @@ const getInvoices = async () => {
                 invoices.transport_amount, invoices.total_amount,
                 invoices.rent_period, invoices.rent_start, invoices.rent_end,
                 invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+                invoices.payable_amount, invoices.discount, invoices.deposit_amount,
                 invoices.description, invoices.created, invoices.updated, users.name
           FROM invoices, users WHERE invoices.user_id=users.id
           ORDER BY invoices.id DESC`,
@@ -339,6 +350,9 @@ const getInvoices = async () => {
           ceremony_address: row.ceremony_address,
           liquidation: row.liquidation,
           user_id: row.user_id,
+          payable_amount: row.payable_amount,
+          discount: row.discount,
+          deposit_amount: row.deposit_amount,
           description: row.description,
           created: row.created,
           updated: row.updated,
@@ -359,6 +373,7 @@ const clientInvoices = async user_id => {
           invoices.transport_amount, invoices.total_amount,
           invoices.rent_period, invoices.rent_start, invoices.rent_end,
           invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+          invoices.payable_amount, invoices.discount, invoices.deposit_amount,
           invoices.description, invoices.created, invoices.updated, users.name
     FROM invoices, users WHERE invoices.user_id=users.id
     AND invoices.user_id=${user_id}
@@ -367,7 +382,7 @@ const clientInvoices = async user_id => {
     (err, result) => {
       if (err) {
         console.log(err.message);
-        return
+        return;
       }
 
       result.forEach(row => {
@@ -448,6 +463,7 @@ const updateInvoice = async ({ invoice, productList }) => {
           SET description=?, invoice_amount=?, damage_amount=?,
           transport_amount=?, total_amount=?, rent_period=?,
           rent_start=?, rent_end=?, ceremony_address=?,
+          payable_amount=?, discount=?, deposit_amount=?,
           liquidation=?, created=?, updated=?, user_id=?
           WHERE id=${invoice.id}`,
     [
@@ -460,6 +476,9 @@ const updateInvoice = async ({ invoice, productList }) => {
       invoice.rent_start,
       invoice.rent_end,
       invoice.ceremony_address,
+      invoice.payable_amount,
+      invoice.discount,
+      invoice.deposit_amount,
       invoice.liquidation,
       invoice.created,
       updated,
@@ -563,6 +582,7 @@ const liquidationInvoices = async () => {
           invoices.transport_amount, invoices.total_amount,
           invoices.rent_period, invoices.rent_start, invoices.rent_end,
           invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+          invoices.payable_amount, invoices.discount, invoices.deposit_amount,
           invoices.description, invoices.created, invoices.updated, users.name
       FROM invoices, users WHERE invoices.user_id=users.id
       AND invoices.liquidation=0
