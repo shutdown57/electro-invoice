@@ -34,18 +34,6 @@
           sortable
           centered
         >{{ props.row.invoice_amount }}</b-table-column>
-        <b-table-column
-          field="name"
-          label="هزینه خسارت"
-          sortable
-          centered
-        >{{ props.row.damage_amount }}</b-table-column>
-        <b-table-column
-          field="name"
-          label="هزینه حمل و نقل"
-          sortable
-          centered
-        >{{ props.row.transport_amount }}</b-table-column>
         <b-table-column field="name" label="هزینه کل" sortable centered>{{ props.row.total_amount }}</b-table-column>
         <b-table-column field="name" label="مدت اجاره" sortable centered>{{ props.row.rent_period }}</b-table-column>
         <b-table-column
@@ -79,13 +67,6 @@
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
           <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
         </b-table-column>
-
-        <b-table-column
-          field="description"
-          label="توضیحات"
-          sortable
-          centered
-        >{{ props.row.description }}</b-table-column>
       </template>
     </b-table>
     <b-field>
