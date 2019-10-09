@@ -69,7 +69,7 @@ export const actions = {
     commit("LIQUIDATION_INVOICES");
   },
   getClientInvoices({ commit }, user_id) {
-    commit("GET_CLIENT_INVOICES", user_id)
+    commit("GET_CLIENT_INVOICES", user_id);
   },
 
   // PDF
