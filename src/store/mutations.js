@@ -81,6 +81,9 @@ export const mutations = {
       rent_period: invoice.rent_period,
       rent_start: invoice.rent_start,
       rent_end: invoice.rent_end,
+      payable_amount: invoice.payable_amount,
+      discount: invoice.discount,
+      deposit_amount: invoice.deposit_amount,
       ceremony_address: invoice.ceremony_address,
       liquidation: invoice.liquidation,
       created: invoice.created,
@@ -105,7 +108,7 @@ export const mutations = {
     state.liquidationInvoices = await Database.liquidationInvoices();
   },
   async GET_CLIENT_INVOICES(state, user_id) {
-    state.clientInvoices = await Database.clientInvoices(user_id)
+    state.clientInvoices = await Database.clientInvoices(user_id);
   },
 
   // PDF
