@@ -102,20 +102,20 @@ const allInvoices = data => {
   let json = [];
   data.forEach(el => {
     json.push({
-      "شماره": el.id,
+      شماره: el.id,
       "هزینه اجناس": el.invoice_amount,
       "هزینه خسارت": el.damage_amount,
       "هزینه حمل و نقل": el.transport_amount,
       "هزینه کل": el.total_amount,
       "مدت اجاره": el.rent_period,
       "آدرس مراسم": el.ceremony_address,
-      "تسویه": el.liquidation,
+      تسویه: el.liquidation,
       "نام مشتری": el.user_id,
       "تاریخ شروع اجاره": el.rent_start,
       "تاریخ پایان اجاره": el.rent_end,
       "تاریخ بروزرسانی": el.updated,
       "تاریخ ایجاد": el.created,
-      "توضیحات": el.description
+      توضیحات: el.description
     });
   });
   printJS({
