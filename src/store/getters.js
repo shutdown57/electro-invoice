@@ -29,6 +29,6 @@ export const getters = {
     return state.liquidationInvoices;
   },
   getClientInvoices(state) {
-    return state.clientInvoices
+    return state.clientInvoices;
   }
 };
