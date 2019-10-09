@@ -79,7 +79,7 @@
             <td>
               <button class="button is-danger" @click="removeFromProductList(index)">
                 <span class="icon is-small">
-                  <i class="fas fa-times"></i>
+                  <b-icon icon="close"></b-icon>
                 </span>
               </button>
             </td>
@@ -95,13 +95,7 @@
 
     <b-field grouped>
       <b-field class="has-text-right" label="هزینه خسارت" expanded>
-        <b-input
-          dir="rtl"
-          type="number"
-          v-model.number="newInvoice.damage_amount"
-          rounded
-          required
-        ></b-input>
+        <b-input dir="rtl" type="number" v-model.number="newInvoice.damage_amount" rounded required></b-input>
       </b-field>
       <b-field class="has-text-right" label="هزینه حمل و نقل" expanded>
         <b-input
@@ -131,13 +125,7 @@
         <datePicker format="jYYYY-jMM-jDD" v-model="newInvoice.rent_end"></datePicker>
       </b-field>&nbsp;&nbsp;&nbsp;&nbsp;
       <b-field class="has-text-right" label="مدت اجاره">
-        <b-input
-          dir="rtl"
-          type="number"
-          v-model.number="rent_time"
-          rounded
-          required
-        ></b-input>
+        <b-input dir="rtl" type="number" v-model.number="rent_time" rounded required></b-input>
       </b-field>&nbsp;&nbsp;&nbsp;&nbsp;
       <b-field class="has-text-right" label="نام مشتری">
         <b-select
@@ -167,13 +155,21 @@
         >تسویه حساب انجام شده</b-checkbox>
       </b-field>
       <b-field class="has-text-right" label="هزینه کل" expanded>
-        <b-input
-          dir="rtl"
-          type="number"
-          v-model.number="total"
-          rounded
-          required
-        ></b-input>
+        <b-input dir="rtl" type="number" v-model.number="total" rounded required></b-input>
+      </b-field>
+    </b-field>
+
+    <b-field grouped>
+      <b-field class="has-text-right" label="تخفیف" expanded>
+        <b-input dir="rtl" type="number" v-model.number="newInvoice.discount" rounded></b-input>
+      </b-field>
+
+      <b-field class="has-text-right" label="بیعانه" expanded>
+        <b-input dir="rtl" type="number" v-model.number="newInvoice.deposit_amount" rounded></b-input>
+      </b-field>
+
+      <b-field class="has-text-right" label="مبلغ پرداختنی" expanded required>
+        <b-input dir="rtl" type="number" v-model.number="payable" rounded></b-input>
       </b-field>
     </b-field>
 
@@ -214,6 +210,9 @@ export default {
         invoice_amount: 0,
         transport_amount: 0,
         damage_amount: 0,
+        discount: 0,
+        payable_amount: 0,
+        deposit_amount: 0,
         rent_end: "",
         rent_start: "",
         rent_period: 0,
@@ -255,6 +254,15 @@ export default {
         this.newInvoice.total_amount += this.newInvoice.transport_amount;
         this.newInvoice.total_amount += this.newInvoice.damage_amount;
         return this.newInvoice.total_amount;
+      }
+    },
+    payable: {
+      get: function() {
+        this.newInvoice.payable_amount = 0;
+        this.newInvoice.payable_amount =
+          this.newInvoice.total_amount - this.newInvoice.discount;
+        this.newInvoice.payable_amount -= this.newInvoice.deposit_amount;
+        return this.newInvoice.payable_amount;
       }
     }
   },
@@ -309,6 +317,9 @@ export default {
         rent_end: this.newInvoice.rent_end,
         rent_start: this.newInvoice.rent_start,
         rent_period: this.newInvoice.rent_period,
+        payable_amount: this.newInvoice.payable_amount,
+        discount: this.newInvoice.discount,
+        deposit_amount: this.newInvoice.deposit_amount,
         user_id: this.newInvoice.user_id
       });
 
