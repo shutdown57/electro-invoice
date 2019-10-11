@@ -305,6 +305,15 @@ export default {
         return;
       }
 
+      // Check if user selected or not
+      if (!this.newInvoice.user_id) {
+        this.$buefy.notification.open({
+          message: "مشتری انتخاب نشده است",
+          type: "is-danger"
+        });
+        return;
+      }
+
       // Insert invoice in database
       await this.$store.dispatch("insertInvoice", {
         total_amount: this.newInvoice.total_amount,
