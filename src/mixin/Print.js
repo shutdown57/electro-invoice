@@ -11,7 +11,7 @@ const oneCustomer = () => {
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
     header: ``,
-    style: ``
+    style: `form#single-client { direction: rtl; text-align: right; }`
   });
 };
 
@@ -58,7 +58,7 @@ const oneProduct = () => {
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
     header: ``,
-    style: ``
+    style: `form#single-product { direction: rtl; text-align: right; }`
   });
 };
 
@@ -94,7 +94,22 @@ const oneInvoice = () => {
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
     header: ``,
-    style: ``
+    style: `
+      form#single-invoice {
+        width: 210mm;
+        height: 297mm; 
+        direction: rtl;
+        text-align: right;
+        font-size: 12px;
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: initial;
+        min-height: initial;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+      }`
   });
 };
 
@@ -111,11 +126,11 @@ const allInvoices = data => {
       "آدرس مراسم": el.ceremony_address,
       تسویه: el.liquidation,
       "نام مشتری": el.user_id,
-      "تاریخ شروع اجاره": el.rent_start,
       "تاریخ پایان اجاره": el.rent_end,
-      "تاریخ بروزرسانی": el.updated,
-      "تاریخ ایجاد": el.created,
-      توضیحات: el.description
+      تخفیف: el.discount,
+      بیعانه: el.deposit_amount,
+      "مبلغ پرداختنی": el.payable_amount,
+      "تاریخ ایجاد": el.created
     });
   });
   printJS({
@@ -132,11 +147,11 @@ const allInvoices = data => {
       "تسویه",
       "هزینه کل",
       "نام مشتری",
-      "تاریخ شروع اجاره",
       "تاریخ پایان اجاره",
-      "تاریخ بروزرسانی",
-      "تاریخ ایجاد",
-      "توضیحات"
+      "تخفیف",
+      "بیعانه",
+      "مبلغ پرداختنی",
+      "تاریخ ایجاد"
     ],
     repeatTableHeader: true,
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
