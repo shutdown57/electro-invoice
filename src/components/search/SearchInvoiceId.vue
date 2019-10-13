@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="left-top">
     <b-field dir="rtl" position="is-centered">
       <b-autocomplete
         placeholder="جستجو فاکتور ..."
@@ -51,3 +51,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.left-top {
+  margin-left: 20px;
+  margin-top: 10px;
+}
+</style>
