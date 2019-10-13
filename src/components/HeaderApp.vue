@@ -1,5 +1,8 @@
 <template>
   <b-navbar>
+    <template slot="start">
+      <SearchInvoiceId></SearchInvoiceId>
+    </template>
     <template slot="end">
       <b-navbar-item tag="router-link" :to="{ path: '/about' }">درباره</b-navbar-item>
       <b-navbar-dropdown class="rtld" label="محصولات">
@@ -20,8 +23,12 @@
 </template>
 
 <script>
+import SearchInvoiceId from '@/components/search/SearchInvoiceId';
 export default {
-  name: "HeaderApp"
+  name: "HeaderApp",
+  components: {
+    SearchInvoiceId
+  }
 };
 </script>
 
