@@ -10,8 +10,8 @@ const oneCustomer = () => {
     repeatTableHeader: false,
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
-    header: ``,
-    style: `form#single-client { direction: rtl; text-align: right; }`
+    header: `<h2 class="rtld">ظروف کرایه عامری</h2>`,
+    style: `form#single-client { direction: rtl; text-align: right; } .rtld { direction: rtl; text-align: right; }`
   });
 };
 
@@ -43,8 +43,8 @@ const allCustomers = data => {
     repeatTableHeader: true,
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
-    header: '<h2 class="custom-h3">PDF data</h2>',
-    style: ".custom-h3 { color: red; }"
+    header: '<h2 class="rtld">ظروف کرایه عامری</h2>',
+    style: ".rtld { direction: rtl; text-align: right; }"
   });
 };
 
@@ -58,7 +58,7 @@ const oneProduct = () => {
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
     header: ``,
-    style: `form#single-product { direction: rtl; text-align: right; }`
+    style: `form#single-product { direction: rtl; text-align: right; } .rtld { direction: rtl; text-align: right; }`
   });
 };
 
@@ -79,8 +79,8 @@ const allProducts = data => {
     repeatTableHeader: true,
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
-    header: '<h2 class="custom-h3">PDF data</h2>',
-    style: ".custom-h3 { color: red; }"
+    header: '<h2 class="rtld">ظروف کرایه عامری</h2>',
+    style: ".rtld { direction: rtl; text-align: right; }"
   });
 };
 
@@ -93,7 +93,7 @@ const oneInvoice = () => {
     repeatTableHeader: false,
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
-    header: ``,
+    header: `<h2 class="rtld">ظروف کرایه عامری</h2>`,
     style: `
       form#single-invoice {
         width: 210mm;
@@ -109,7 +109,8 @@ const oneInvoice = () => {
         box-shadow: initial;
         background: initial;
         page-break-after: always;
-      }`
+      }
+      .rtld { direction: rtl; text-align: right; }`
   });
 };
 
@@ -156,8 +157,8 @@ const allInvoices = data => {
     repeatTableHeader: true,
     gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
     gridStyle: "border: 1px solid #3971A5;  text-align: center;",
-    header: '<h2 class="custom-h3">PDF data</h2>',
-    style: ".custom-h3 { color: red; }"
+    header: '<h2 class="rtld">ظروف کرایه عامری</h2>',
+    style: ".rtld { direction: rtl; text-align: right; }"
   });
 };
 
