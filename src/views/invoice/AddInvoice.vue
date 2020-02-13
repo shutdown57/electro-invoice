@@ -50,6 +50,7 @@
                 placeholder="Customer"
                 icon="cube-outline"
                 v-model="singleProduct.product"
+                @input="defaultPrice(productList, singleProduct.product, index)"
                 rounded
               >
                 <option
@@ -259,19 +260,23 @@ export default {
     payable: {
       get: function() {
         this.newInvoice.payable_amount = 0;
-        this.newInvoice.payable_amount =
-          this.newInvoice.total_amount - this.newInvoice.discount;
+        this.newInvoice.payable_amount = this.newInvoice.total_amount - this.newInvoice.discount;
         this.newInvoice.payable_amount -= this.newInvoice.deposit_amount;
         return this.newInvoice.payable_amount;
       }
     }
   },
   async mounted() {
-    await this.$store.dispatch("getProducts"),
-      await this.$store.dispatch("getClients");
+    await this.$store.dispatch("getProducts");
+    await this.$store.dispatch("getClients");
     await this.$store.dispatch("lastInvoiceId");
   },
   methods: {
+    defaultPrice(list, product, index) {
+      if (product) {
+        this.productList[index].fee = product.price || 0;
+      }
+    },
     priceCalculation(fee, number) {
       return parseFloat(fee) * parseFloat(number);
     },
@@ -336,7 +341,7 @@ export default {
       let latestInvoiceId = this.invoice[0].id ? this.invoice[0].id + 1 : 1;
 
       // Insert product and invoice info in database
-      this.$store.dispatch("insertInvoiceProduct", {
+      await this.$store.dispatch("insertInvoiceProduct", {
         productList: this.productList,
         latestInvoiceId,
         user_id: this.newInvoice.user_id
