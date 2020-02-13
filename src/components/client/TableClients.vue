@@ -46,8 +46,6 @@
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
           <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
         </b-table-column>
-
-        <b-table-column field="address" label="آدرس" sortable centered>{{ props.row.address }}</b-table-column>
       </template>
     </b-table>
   </section>
