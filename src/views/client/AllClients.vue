@@ -1,5 +1,6 @@
 <template>
   <section class="container">
+    <h1 class="has-text-centered title is-3">لیست مشتریان</h1>
     <TableClients></TableClients>
     <b-field>
       <p class="control has-text-centered">
