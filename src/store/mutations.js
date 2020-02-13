@@ -49,6 +49,9 @@ export const mutations = {
   async DELETE_PRODUCT(state, product_id) {
     await Database.deleteProduct(product_id);
   },
+  async GET_PRODUCT_BY_NAME(state, productName) {
+    await Database.getProductByName(productName);
+  },
 
   // Invoice
   async INSERT_INVOICE(state, invoice) {
