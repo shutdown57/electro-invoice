@@ -31,7 +31,7 @@
     </b-field>
     <hr>
     <section dir="ltr">
-      <h3 class="title is-4">لیست فاکتورهای این مشتری</h3>
+      <h3 class="title is-4 has-text-centered">لیست فاکتورهای این مشتری</h3>
       <ClientInvoices></ClientInvoices>
     </section>
   </section>
