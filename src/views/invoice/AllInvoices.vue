@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1 class="has-text-centered title is-3">صفحه محصولات</h1>
+    <h1 class="has-text-centered title is-3">لیست تمامی فاکتورها</h1>
     <b-table
       id="table-client"
       :data="isEmpty(invoices) ? [] : invoices"
@@ -28,16 +28,7 @@
       <template slot-scope="props">
         <b-table-column field="id" label="شماره" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
 
-        <b-table-column
-          field="name"
-          label="هزینه اجناس"
-          sortable
-          centered
-        >{{ props.row.invoice_amount }}</b-table-column>
-
         <b-table-column field="name" label="هزینه کل" sortable centered>{{ props.row.total_amount }}</b-table-column>
-
-        <b-table-column field="name" label="تخفیف" sortable centered>{{ props.row.discount }}</b-table-column>
 
         <b-table-column field="name" label="بیعانه" sortable centered>{{ props.row.deposit_amount }}</b-table-column>
 
@@ -51,11 +42,12 @@
         <b-table-column field="name" label="مدت اجاره" sortable centered>{{ props.row.rent_period }}</b-table-column>
 
         <b-table-column
+          dir="rtl"
           field="name"
           label="آدرس مراسم"
           sortable
           centered
-        >{{ props.row.ceremony_address }}</b-table-column>
+        >{{ props.row.ceremony_address ? props.row.ceremony_address.substring(0, 7) + "..." : "" }}</b-table-column>
 
         <b-table-column field="name" label="تسویه" sortable centered>
           <b-icon :icon="isLiquidation(props.row.liquidation)"></b-icon>
