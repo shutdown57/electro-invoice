@@ -30,6 +30,8 @@
 
         <b-table-column field="name" label="نام محصول" sortable centered>{{ props.row.name }}</b-table-column>
 
+        <b-table-column field="price" label="قیمت واحد" sortable centered>{{ props.row.price ? props.row.price : 0 }}</b-table-column>
+
         <b-table-column field="date" label="تاریخ بروز رسانی" sortable centered>
           <span
             class="tag is-info rtld"
@@ -39,13 +41,6 @@
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
           <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
         </b-table-column>
-
-        <b-table-column
-          field="description"
-          label="توضیحات"
-          sortable
-          centered
-        >{{ props.row.description }}</b-table-column>
       </template>
     </b-table>
     <b-field>
