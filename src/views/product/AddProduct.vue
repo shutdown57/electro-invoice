@@ -4,17 +4,20 @@
       <b-input
         dir="rtl"
         type="text"
-        pattern="(.*){2,}"
-        validation-message="نام مصحول باید بیش از ۲ حرف باشد"
         v-model="newProduct.name"
         rounded
         required
       ></b-input>
     </b-field>
 
+    <b-field class="has-text-right" label="قیمت">
+      <b-input type="number" v-model="newProduct.price" rounded></b-input>
+    </b-field>
+
     <b-field class="has-text-right" label="توضیحات">
       <b-input dir="rtl" type="textarea" v-model="newProduct.description"></b-input>
     </b-field>
+
     <div class="has-text-centered">
       <b-button size="is-medium" icon-right="plus" type="is-primary" @click="submit" outlined>ذخیره</b-button>
     </div>
@@ -46,6 +49,7 @@ export default {
       }
       await this.$store.dispatch("insertProduct", {
         name: this.newProduct.name,
+        price: this.newProduct.price,
         description: this.newProduct.description
       });
       this.$buefy.notification.open({
