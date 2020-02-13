@@ -36,6 +36,9 @@ export const actions = {
   deleteProduct({ commit }, product_id) {
     commit("DELETE_PRODUCT", product_id);
   },
+  getDefaultProductPrice({ commit }, productName) {
+    commit("GET_PRODUCT_BY_NAME", productName);
+  },
 
   // Invoice
   insertInvoice({ commit }, invoice) {
