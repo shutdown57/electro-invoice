@@ -23,6 +23,7 @@ const init = () => {
     db.run(`CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL UNIQUE,
+            price REAL DEFAULT 0.0,
             description TEXT,
             created TEXT NOT NULL,
             updated TEXT)`);
@@ -148,15 +149,15 @@ const deleteClient = client_id => {
 /* ############################################################## 
   Product
 */
-const insertProduct = ({ name, description }) => {
+const insertProduct = ({ name, price, description }) => {
   let db = new sqlite.Database("db.sqlite");
   let created = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
 
   db.run(
     `INSERT INTO products
-    (name, description, created, updated)
-    VALUES (?, ?, ?, ?)`,
-    [name, description, created, null],
+    (name, price, description, created, updated)
+    VALUES (?, ?, ?, ?, ?)`,
+    [name, price, description, created, null],
     err => {
       if (err) {
         console.log(err.message);
@@ -194,6 +195,7 @@ const getProducts = async () => {
       data.push({
         id: row.id,
         name: row.name,
+        price: row.price,
         description: row.description,
         created: row.created,
         updated: row.updated
@@ -212,6 +214,24 @@ const deleteProduct = product_id => {
   );
 
   db.close();
+};
+
+const getProductByName = productName => {
+  let db = new sqlite.Database("db.sqlite");
+  let data = [];
+
+  db.get(`SELECT * FROM products WHERE name=${productName}`, [], (err, result) => {
+    if (err) {
+      console.log(`ERR: ${err}`);
+      return false;
+    }
+
+    console.log(`RESULT: ${result}`);
+    data.push(result)
+  });
+
+  db.close();
+  return data;
 };
 
 /* ############################################################## 
@@ -236,7 +256,8 @@ const insertInvoice = async ({
   let db = new sqlite.Database("db.sqlite");
   let created = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
   let data = [];
-  db.run(
+
+  await db.run(
     `INSERT INTO invoices
     (description, invoice_amount, damage_amount,
       transport_amount, total_amount, rent_period,
@@ -264,14 +285,17 @@ const insertInvoice = async ({
     ],
     err => {
       if (err) {
+        console.log("FROM DB");
         console.log(err.message);
       }
     }
   );
-  db.get(`SELECT * FROM invoices ORDER BY id DESC LIMIT 1`, (err, row) => {
+
+  await db.get(`SELECT * FROM invoices ORDER BY id DESC LIMIT 1`, (err, row) => {
     if (err) console.log(err);
     else data.push({ ...row });
   });
+
   db.close();
   return data[0];
 };
@@ -283,8 +307,8 @@ const insertInvoiceProduct = async ({
 }) => {
   let db = new sqlite.Database("db.sqlite");
 
-  productList.forEach(item => {
-    db.run(
+  productList.forEach(async item => {
+    await db.run(
       `INSERT INTO invoice_product
       (fee, price, number, description, invoice_id, product_id, user_id)
       VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -620,6 +644,7 @@ export default {
   updateProduct,
   getProducts,
   deleteProduct,
+  getProductByName,
 
   // Invoice
   insertInvoice,
