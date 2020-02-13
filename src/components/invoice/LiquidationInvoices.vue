@@ -22,7 +22,7 @@
 
         <b-table-column field="total_amount" label="هزینه کل فاکتور" centered>{{ props.row.total_amount }}</b-table-column>
 
-        <b-table-column field="name" label="نام و نام خانوادگی مشتری" centered>{{ props.row.name }}</b-table-column>
+        <b-table-column dir="rtl" field="name" label="نام و نام خانوادگی مشتری" centered>{{ props.row.name }}</b-table-column>
 
         <b-table-column field="liquidation" label="تسویه" sortable centered>
           <b-icon :icon="isLiquidation(props.row.liquidation)"></b-icon>
@@ -52,7 +52,7 @@
           >{{ props.row.updated ? new Date(props.row.updated).toLocaleDateString() : '----------' }}</span>
         </b-table-column>
 
-        <b-table-column field="ceremony_address" label="آدرس مراسم">{{ props.row.ceremony_address }}</b-table-column>
+        <b-table-column dir="rtl" field="ceremony_address" label="آدرس مراسم">{{ props.row.ceremony_address ? props.row.ceremony_address.substring(0, 7) + "..." : "" }}</b-table-column>
       </template>
 
       <template slot="empty">
