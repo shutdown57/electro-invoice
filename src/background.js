@@ -23,7 +23,8 @@ function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
     width: 1000,
-    height: 70,
+    height: 700,
+    // fullscreen: true,
     frame: true,
     titleBarStyle: "hidden",
     webPreferences: {
