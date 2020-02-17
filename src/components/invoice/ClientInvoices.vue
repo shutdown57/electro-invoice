@@ -27,32 +27,8 @@
       <template slot-scope="props">
         <b-table-column field="id" label="شماره" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
 
-        <b-table-column
-          field="name"
-          label="هزینه اجناس"
-          sortable
-          centered
-        >{{ props.row.invoice_amount }}</b-table-column>
-        <b-table-column
-          field="name"
-          label="هزینه خسارت"
-          sortable
-          centered
-        >{{ props.row.damage_amount }}</b-table-column>
-        <b-table-column
-          field="name"
-          label="هزینه حمل و نقل"
-          sortable
-          centered
-        >{{ props.row.transport_amount }}</b-table-column>
         <b-table-column field="name" label="هزینه کل" sortable centered>{{ props.row.total_amount }}</b-table-column>
         <b-table-column field="name" label="مدت اجاره" sortable centered>{{ props.row.rent_period }}</b-table-column>
-        <b-table-column
-          field="name"
-          label="آدرس مراسم"
-          sortable
-          centered
-        >{{ props.row.ceremony_address }}</b-table-column>
         <b-table-column field="name" label="تسویه" sortable centered>
           <b-icon :icon="isLiquidation(props.row.liquidation)"></b-icon>
         </b-table-column>
@@ -114,7 +90,7 @@ export default {
       isHoverable: true,
       sortIconSize: "is-small",
       currentPage: 1,
-      perPage: 60
+      perPage: 5
     };
   },
   async mounted() {

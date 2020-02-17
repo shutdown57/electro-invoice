@@ -9,7 +9,7 @@ export const getters = {
 
   // Products
   getProducts(state) {
-    return state.allProducts;
+    return state.allProducts.sort((a, b) => a.name.localeCompare(b.name));
   },
   getProduct(state) {
     return state.oneProduct;

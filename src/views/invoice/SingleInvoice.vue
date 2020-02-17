@@ -1,6 +1,70 @@
 <template>
   <section dir="rtl" class="container">
     <form id="single-invoice">
+      <b-field horizontal label="شماره فاکتور">
+        <b-input v-model="invoice.id" expanded disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="هزینه اجناس">
+        <b-input v-model="invoice.invoice_amount" expanded disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="هزینه حمل و نقل">
+        <b-input v-model="invoice.transport_amount" expanded disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="هزینه خسارت">
+        <b-input v-model="invoice.damage_amount" expanded disabled></b-input>
+      </b-field>
+      <b-field horizontal label="هزینه کل">
+        <b-input v-model="invoice.total_amount" expanded disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="تاریخ شروع اجاره">
+        <b-input v-model="invoice.rent_start" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="تاریخ اتمام اجاره">
+        <b-input v-model="invoice.rent_end" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="مدت اجاره">
+        <b-input v-model="invoice.rent_period" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="نام مشتری">
+        <b-input v-model="invoice.name" disabled></b-input>
+      </b-field>
+
+      <br />>
+
+      <b-field horizontal label="تسویه حساب">
+        <b-checkbox v-model="invoice.liquidation" true-value="1" false-value="0" disabled></b-checkbox>
+      </b-field>
+
+      <b-field horizontal label="تخفیف">
+        <b-input v-model="invoice.discount" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="بیعانه">
+        <b-input v-model="invoice.deposit_amount" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="مبلغ پرداختنی">
+        <b-input v-model="invoice.payable_amount" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="آدرس مراسم">
+        <b-input type="textarea" v-model="invoice.ceremony_address" disabled></b-input>
+      </b-field>
+
+      <b-field horizontal label="توضیحات">
+        <b-input type="textarea" v-model="invoice.description" disabled></b-input>
+      </b-field>
+
+      <br />
+      <br />
+
       <table class="table">
         <thead>
           <tr>
@@ -66,68 +130,6 @@
           </tr>
         </tbody>
       </table>
-
-      <br />
-      <br />
-
-      <b-field horizontal label="شماره فاکتور">
-        <b-input v-model="invoice.id" expanded disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="هزینه اجناس">
-        <b-input v-model="invoice.invoice_amount" expanded disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="هزینه حمل و نقل">
-        <b-input v-model="invoice.transport_amount" expanded disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="هزینه خسارت">
-        <b-input v-model="invoice.damage_amount" expanded disabled></b-input>
-      </b-field>
-      <b-field horizontal label="هزینه کل">
-        <b-input v-model="invoice.total_amount" expanded disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="تاریخ شروع اجاره">
-        <b-input v-model="invoice.rent_start" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="تاریخ اتمام اجاره">
-        <b-input v-model="invoice.rent_end" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="مدت اجاره">
-        <b-input v-model="invoice.rent_period" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="نام مشتری">
-        <b-input v-model="invoice.name" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="تسویه حساب">
-        <b-checkbox v-model="invoice.liquidation" true-value="1" false-value="0" disabled></b-checkbox>
-      </b-field>
-
-      <b-field horizontal label="تخفیف">
-        <b-input v-model="invoice.discount" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="بیعانه">
-        <b-input v-model="invoice.deposit_amount" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="مبلغ پرداختنی">
-        <b-input v-model="invoice.payable_amount" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="آدرس مراسم">
-        <b-input type="textarea" v-model="invoice.ceremony_address" disabled></b-input>
-      </b-field>
-
-      <b-field horizontal label="توضیحات">
-        <b-input type="textarea" v-model="invoice.description" disabled></b-input>
-      </b-field>
     </form>
     <br />
     <b-field>

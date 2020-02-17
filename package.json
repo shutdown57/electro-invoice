@@ -16,6 +16,8 @@
   "dependencies": {
     "buefy": "^0.8.0",
     "core-js": "^2.6.5",
+    "handlebars": "^4.7.3",
+    "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
     "mdi": "^2.2.43",
     "moment-jalaali": "^0.8.3",

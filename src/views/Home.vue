@@ -14,7 +14,7 @@
 // import * as sqlite from 'sqlite3'
 import TableClients from "@/components/client/TableClients";
 import LiquidationInvoices from "@/components/invoice/LiquidationInvoices";
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 
 export default {
   name: "home",

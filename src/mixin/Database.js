@@ -113,8 +113,11 @@ const getByID = (id, table) => {
   let data = [];
   db.serialize(function() {
     db.each(`SELECT * FROM ${table} WHERE id=${id}`, function(err, row) {
-      console.log(`${row}`);
-      data = [...row];
+      if (err) {
+        console.log(err.message)
+        return false;
+      }
+      data.push({ ...row });
     });
   });
   db.close();
@@ -415,7 +418,6 @@ const clientInvoices = async user_id => {
     }
   );
   db.close();
-  console.log(data);
   return data;
 };
 
