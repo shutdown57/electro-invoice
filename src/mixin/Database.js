@@ -171,14 +171,14 @@ const insertProduct = ({ name, price, description }) => {
   db.close();
 };
 
-const updateProduct = ({ id, name, description, created }) => {
+const updateProduct = ({ id, name, price, description, created }) => {
   let db = new sqlite.Database("db.sqlite");
   let updated = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
   db.run(
     `UPDATE products 
-          SET name=?, description=?, created=?, updated=?
+          SET name=?, price=?, description=?, created=?, updated=?
           WHERE id=${id}`,
-    [name, description, created, updated],
+    [name, price, description, created, updated],
     err => {
       if (err) console.log(err.message);
     }
@@ -229,7 +229,6 @@ const getProductByName = productName => {
       return false;
     }
 
-    console.log(`RESULT: ${result}`);
     data.push(result)
   });
 
