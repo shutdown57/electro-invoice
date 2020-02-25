@@ -12,6 +12,10 @@
       ></b-input>
     </b-field>
 
+    <b-field class="has-text-right" label="قیمت">
+      <b-input type="number" v-model="product.price" rounded></b-input>
+    </b-field>
+
     <b-field class="has-text-right" label="توضیحات">
       <b-input dir="rtl" type="textarea" v-model="product.description"></b-input>
     </b-field>
@@ -31,7 +35,7 @@ export default {
     };
   },
   async mounted() {
-      this.product = this.oneProduct
+    this.product = this.oneProduct
   },
   computed: {
     ...mapGetters({
@@ -50,6 +54,7 @@ export default {
       await this.$store.dispatch("updateProduct", {
         id: this.product.id,
         name: this.product.name,
+        price: this.product.price,
         description: this.product.description,
         created: this.product.created
       });
