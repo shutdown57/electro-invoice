@@ -5,6 +5,10 @@
         <b-input name="subject" v-model="product.name" expanded disabled></b-input>
       </b-field>
 
+      <b-field horizontal label="قیمت محصول">
+        <b-input name="subject" v-model="product.price" expanded disabled></b-input>
+      </b-field>
+
       <b-field horizontal label="تاریخ ایجاد">
         <b-input name="subject" v-model="product.created" expanded disabled></b-input>
       </b-field>
