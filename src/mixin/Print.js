@@ -91,9 +91,9 @@ const oneInvoice = () => {
     printable: "single-invoice",
     type: "html",
     repeatTableHeader: false,
-    gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
-    gridStyle: "border: 1px solid #3971A5;  text-align: center;",
-    header: `<h2 class="rtld">ظروف کرایه عامری</h2>`,
+    // gridHeaderStyle: "color: black;  border: 1px solid #3971A5;",
+    // gridStyle: "border: 1px solid #3971A5;  text-align: center;",
+    // header: `<h2 class="rtld">ظروف کرایه عامری</h2>`,
     style: `
       form#single-invoice {
         width: 210mm;
@@ -110,8 +110,7 @@ const oneInvoice = () => {
         background: initial;
         page-break-after: always;
       }
-      .rtld { direction: rtl; text-align: right; }
-      * { font-size: 110%; }`
+      * { direction: rtl; text-align: right; }`
   });
 };
 
