@@ -38,6 +38,7 @@ export const mutations = {
     state.oneProduct = {
       id: product.id,
       name: product.name,
+      price: product.price,
       description: product.description,
       created: product.created,
       updated: product.updated
