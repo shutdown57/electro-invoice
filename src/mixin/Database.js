@@ -15,9 +15,9 @@ const init = () => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
-            address TEXT NOT NULL,
-            phone TEXT NOT NULL UNIQUE,
-            mobile TEXT NOT NULL UNIQUE,
+            address TEXT,
+            phone TEXT,
+            mobile TEXT,
             created TEXT NOT NULL,
             updated TEXT)`);
     db.run(`CREATE TABLE IF NOT EXISTS products (
@@ -287,7 +287,6 @@ const insertInvoice = async ({
     ],
     err => {
       if (err) {
-        console.log("FROM DB");
         console.log(err.message);
       }
     }
@@ -302,15 +301,11 @@ const insertInvoice = async ({
   return data[0];
 };
 
-const insertInvoiceProduct = async ({
-  productList,
-  latestInvoiceId,
-  user_id
-}) => {
+const insertInvoiceProduct = async ({ productList, latestInvoiceId, user_id }) => {
   let db = new sqlite.Database("db.sqlite");
 
-  productList.forEach(async item => {
-    await db.run(
+  await productList.forEach(item => {
+    db.run(
       `INSERT INTO invoice_product
       (fee, price, number, description, invoice_id, product_id, user_id)
       VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -438,7 +433,7 @@ const getInvoiceProducts = async invoice_id => {
   //           products
   //           ON invoice_product.product_id=products.id
   //         WHERE invoice_id=${invoice_id}
-  db.all(
+  await db.all(
     `SELECT invoice_product.fee, invoice_product.price, invoice_product.number,
     invoice_product.description, invoice_product.user_id, invoice_product.invoice_id,
     invoice_product.product_id, products.name, products.id
