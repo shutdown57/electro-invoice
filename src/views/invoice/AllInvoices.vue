@@ -108,7 +108,7 @@ export default {
       this.$router.push("/invoices/single");
     },
     isEmpty(arr) {
-      if (arr.length > 0) {
+      if (arr && arr.length > 0) {
         return false;
       }
       return true;
