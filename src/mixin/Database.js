@@ -114,7 +114,7 @@ const getByID = (id, table) => {
   db.serialize(function() {
     db.each(`SELECT * FROM ${table} WHERE id=${id}`, function(err, row) {
       if (err) {
-        console.log(err.message)
+        console.log(err.message);
         return false;
       }
       data.push({ ...row });
@@ -223,14 +223,18 @@ const getProductByName = productName => {
   let db = new sqlite.Database("db.sqlite");
   let data = [];
 
-  db.get(`SELECT * FROM products WHERE name=${productName}`, [], (err, result) => {
-    if (err) {
-      console.log(`ERR: ${err}`);
-      return false;
-    }
+  db.get(
+    `SELECT * FROM products WHERE name=${productName}`,
+    [],
+    (err, result) => {
+      if (err) {
+        console.log(`ERR: ${err}`);
+        return false;
+      }
 
-    data.push(result)
-  });
+      data.push(result);
+    }
+  );
 
   db.close();
   return data;
@@ -258,58 +262,88 @@ const insertInvoice = async ({
   let db = new sqlite.Database("db.sqlite");
   let created = mmj(new Date()).format("jYYYY-jMM-jDD HH:mm");
   let data = [];
+  let queries = [
+    {
+      "query": `INSERT INTO invoices
+        (description, invoice_amount, damage_amount,
+          transport_amount, total_amount, rent_period,
+          rent_start, rent_end, ceremony_address,
+          payable_amount, discount, deposit_amount,
+          liquidation, user_id, created, updated)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      "command": "run",
+      "params": [
+        description,
+        invoice_amount,
+        damage_amount,
+        transport_amount,
+        total_amount,
+        rent_period,
+        rent_start,
+        rent_end,
+        ceremony_address,
+        payable_amount,
+        discount,
+        deposit_amount,
+        liquidation,
+        user_id,
+        created,
+        null
+      ]
+    },
+    {
+      "query": `SELECT * FROM invoices ORDER BY id DESC LIMIT 1`,
+      "command": "get",
+      "params": []
+    },
+  ]
 
-  await db.run(
-    `INSERT INTO invoices
-    (description, invoice_amount, damage_amount,
-      transport_amount, total_amount, rent_period,
-      rent_start, rent_end, ceremony_address,
-      payable_amount, discount, deposit_amount,
-      liquidation, user_id, created, updated)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      description,
-      invoice_amount,
-      damage_amount,
-      transport_amount,
-      total_amount,
-      rent_period,
-      rent_start,
-      rent_end,
-      ceremony_address,
-      payable_amount,
-      discount,
-      deposit_amount,
-      liquidation,
-      user_id,
-      created,
-      null
-    ],
-    err => {
-      if (err) {
-        console.log(err.message);
-      }
+  function asyncJob(arg, callback) {
+    db[arg.command](arg.query, arg.params, (err, result) => {
+      if (err) console.log(err.message);
+      else if (result) callback(result);
+      else callback(null);
+    });
+  }
+
+  function final() {
+    db.close();
+    return data;
+  }
+
+  function series(query) {
+    if (query) {
+      asyncJob(query, function (result) {
+        if (result != null) {
+          data.push(result);
+        }
+        return series(queries.shift());
+      });
+    } else {
+      return final();
     }
-  );
+  }
 
-  await db.get(`SELECT * FROM invoices ORDER BY id DESC LIMIT 1`, (err, row) => {
-    if (err) console.log(err);
-    else data.push({ ...row });
-  });
-
-  db.close();
-  return data[0];
+  series(queries.shift());
+  return data;
 };
 
-const insertInvoiceProduct = async ({ productList, latestInvoiceId, user_id }) => {
+const insertInvoiceProduct = ({
+  productList,
+  latestInvoiceId,
+  user_id
+}) => {
   let db = new sqlite.Database("db.sqlite");
+  let data = [];
+  let queries = [];
 
-  await productList.forEach(item => {
-    db.run(
-      `INSERT INTO invoice_product
-      (fee, price, number, description, invoice_id, product_id, user_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [
+  productList.forEach(item => {
+    queries.push({
+      "query": `INSERT INTO invoice_product
+        (fee, price, number, description, invoice_id, product_id, user_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      "command": "run",
+      "params": [
         item.fee,
         item.price,
         item.number,
@@ -317,14 +351,45 @@ const insertInvoiceProduct = async ({ productList, latestInvoiceId, user_id }) =
         latestInvoiceId,
         item.product.id,
         user_id
-      ],
-      err => {
-        if (err) console.log(err.message);
-      }
-    );
+      ]
+    });
   });
 
-  db.close();
+  queries.push(
+    {
+      "query": `SELECT * FROM invoices ORDER BY id DESC LIMIT 1`,
+      "command": "get",
+      "params": []
+    });
+
+  function asyncJob(arg, callback) {
+    db[arg.command](arg.query, arg.params, (err, result) => {
+      if (err) console.log(err.message);
+      else if (result) callback(result);
+      else callback(null);
+    });
+  }
+
+  function final() {
+    db.close();
+    return data;
+  }
+
+  function series(query) {
+    if (query) {
+      asyncJob(query, function (result) {
+        if (result != null) {
+          data.push(result);
+        }
+        return series(queries.shift());
+      });
+    } else {
+      return final();
+    }
+  }
+
+  series(queries.shift());
+  return data;
 };
 
 const lastInvoiceId = async () => {
@@ -342,9 +407,9 @@ const lastInvoiceId = async () => {
 const getInvoices = async () => {
   let db = new sqlite.Database("db.sqlite");
   let data = [];
-
-  db.all(
-    `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
+  let queries = [
+    {
+      "query": `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
                 invoices.transport_amount, invoices.total_amount,
                 invoices.rent_period, invoices.rent_start, invoices.rent_end,
                 invoices.ceremony_address, invoices.liquidation, invoices.user_id,
@@ -352,72 +417,158 @@ const getInvoices = async () => {
                 invoices.description, invoices.created, invoices.updated, users.name
           FROM invoices, users WHERE invoices.user_id=users.id
           ORDER BY invoices.id DESC`,
-    [],
-    (err, result) => {
-      if (err) {
-        console.log(err.message);
-        return [];
-      }
-      result.forEach(row => {
-        data.push({
-          id: row.id,
-          invoice_amount: row.invoice_amount,
-          damage_amount: row.damage_amount,
-          transport_amount: row.transport_amount,
-          total_amount: row.total_amount,
-          rent_period: row.rent_period,
-          rent_start: row.rent_start,
-          rent_end: row.rent_end,
-          ceremony_address: row.ceremony_address,
-          liquidation: row.liquidation,
-          user_id: row.user_id,
-          payable_amount: row.payable_amount,
-          discount: row.discount,
-          deposit_amount: row.deposit_amount,
-          description: row.description,
-          created: row.created,
-          updated: row.updated,
-          name: row.name
-        });
-      });
+      "command": "all",
+      "params": []
     }
-  );
-  db.close();
+  ];
+
+  function asyncJob(arg, callback) {
+    db[arg.command](arg.query, arg.params, (err, result) => {
+      if (err) console.log(err.message);
+      else if (result) callback(result);
+      else callback(null);
+    });
+  }
+
+  function final() {
+    db.close();
+    return data;
+  }
+
+  function series(query) {
+    if (query) {
+      asyncJob(query, function (result) {
+        if (result != null) {
+          result.forEach(row => {
+            data.push({
+              id: row.id,
+              invoice_amount: row.invoice_amount,
+              damage_amount: row.damage_amount,
+              transport_amount: row.transport_amount,
+              total_amount: row.total_amount,
+              rent_period: row.rent_period,
+              rent_start: row.rent_start,
+              rent_end: row.rent_end,
+              ceremony_address: row.ceremony_address,
+              liquidation: row.liquidation,
+              user_id: row.user_id,
+              payable_amount: row.payable_amount,
+              discount: row.discount,
+              deposit_amount: row.deposit_amount,
+              description: row.description,
+              created: row.created,
+              updated: row.updated,
+              name: row.name
+            });
+          });
+        }
+        return series(queries.shift());
+      });
+    } else {
+      return final();
+    }
+  }
+
+  series(queries.shift());
   return data;
 };
 
 const clientInvoices = async user_id => {
   let db = new sqlite.Database("db.sqlite");
   let data = [];
-  db.all(
-    `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
-          invoices.transport_amount, invoices.total_amount,
-          invoices.rent_period, invoices.rent_start, invoices.rent_end,
-          invoices.ceremony_address, invoices.liquidation, invoices.user_id,
-          invoices.payable_amount, invoices.discount, invoices.deposit_amount,
-          invoices.description, invoices.created, invoices.updated, users.name
-    FROM invoices, users WHERE invoices.user_id=users.id
-    AND invoices.user_id=${user_id}
-    ORDER BY invoices.id DESC`,
-    [],
-    (err, result) => {
-      if (err) {
-        console.log(err.message);
-        return;
-      }
-
-      result.forEach(row => {
-        data.push({ ...row });
-      });
+  let queries = [
+    {
+      "query": `SELECT invoices.id, invoices.invoice_amount, invoices.damage_amount,
+              invoices.transport_amount, invoices.total_amount,
+              invoices.rent_period, invoices.rent_start, invoices.rent_end,
+              invoices.ceremony_address, invoices.liquidation, invoices.user_id,
+              invoices.payable_amount, invoices.discount, invoices.deposit_amount,
+              invoices.description, invoices.created, invoices.updated, users.name
+        FROM invoices, users WHERE invoices.user_id=users.id
+        AND invoices.user_id=?
+        ORDER BY invoices.id DESC`,
+      "command": "all",
+      "params": [user_id]
     }
-  );
-  db.close();
+  ];
+
+  function asyncJob(arg, callback) {
+    db[arg.command](arg.query, arg.params, (err, result) => {
+      if (err) console.log(err.message);
+      else if (result) callback(result);
+      else callback(null);
+    });
+  }
+
+  function final() {
+    db.close();
+    return data;
+  }
+
+  function series(query) {
+    if (query) {
+      asyncJob(query, function (result) {
+        if (result != null) {
+          result.forEach(row => {
+            data.push({ ...row });
+          });
+        }
+        return series(queries.shift());
+      });
+    } else {
+      return final();
+    }
+  }
+
+  series(queries.shift());
   return data;
 };
 
 const getInvoiceProducts = async invoice_id => {
   let db = new sqlite.Database("db.sqlite");
   let data = [];
+  let queries = [
+    {
+      "query": `SELECT invoice_product.fee, invoice_product.price, invoice_product.number,
+          invoice_product.description, invoice_product.user_id, invoice_product.invoice_id,
+          invoice_product.product_id, products.name, products.id
+                FROM invoice_product, products
+                WHERE invoice_product.invoice_id=?
+                AND invoice_product.product_id=products.id`,
+      "command": "each",
+      "params": [invoice_id]
+    }
+  ];
+
+  function asyncJob(arg, callback) {
+    db[arg.command](arg.query, arg.params, (err, result) => {
+      if (err) console.log(err.message);
+      else if (result) callback(result);
+      else callback(null);
+    });
+  }
+
+  function final() {
+    db.close();
+    return data;
+  }
+
+  function series(query) {
+    if (query) {
+      asyncJob(query, function (result) {
+        if (result != null) {
+          data.push(result);
+        }
+      });
+    } else {
+      return final();
+    }
+  }
+
+  series(queries.shift());
+  return data;
+
+  // ###########################################################
   // GET PRODUCTS AND INVOICES AND INVOICE_PRODUCT
   // -----------------------------------------------------------
   // SELECT * FROM invoices, invoice_product, products
@@ -433,26 +584,21 @@ const getInvoiceProducts = async invoice_id => {
   //           products
   //           ON invoice_product.product_id=products.id
   //         WHERE invoice_id=${invoice_id}
-  await db.all(
-    `SELECT invoice_product.fee, invoice_product.price, invoice_product.number,
-    invoice_product.description, invoice_product.user_id, invoice_product.invoice_id,
-    invoice_product.product_id, products.name, products.id
-          FROM invoice_product, products
-          WHERE invoice_product.invoice_id=${invoice_id}
-          AND invoice_product.product_id=products.id`,
-    [],
-    (err, result) => {
-      if (err) {
-        console.log(err.message);
-        return [];
-      }
-      result.forEach(row => {
-        data.push(row);
-      });
-    }
-  );
-  db.close();
-  return data;
+  // db.serialize(function () {
+  //   let query = `SELECT invoice_product.fee, invoice_product.price, invoice_product.number,
+  //     invoice_product.description, invoice_product.user_id, invoice_product.invoice_id,
+  //     invoice_product.product_id, products.name, products.id
+  //           FROM invoice_product, products
+  //           WHERE invoice_product.invoice_id=?
+  //           AND invoice_product.product_id=products.id`;
+  //   db.each(query, [invoice_id], (err, result) => {
+  //     if (err) console.log(err.message)
+  //     else data.push(result);
+  //   });
+  // });
+  //
+  // db.close();
+  // return data;
 };
 
 const getInvoiceId = async invoice_id => {
