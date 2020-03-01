@@ -4,22 +4,23 @@
     </div>
     <div class="columns">
       <div class="column has-text-right">
-        <p class="dir-rtl">شماره فاکتور: {{ info.id }}</p>
+        <span class="dir-rtl">شماره فاکتور: {{ info.id }}</span>
+        &nbsp;
+        &nbsp;
+        <span class="dir-rtl">تاریخ ثبت: {{ info.created }}</span>
         <p class="dir-rtl">نام مشتری: {{ info.name }}</p>
       </div>
 
-      <div class="column column has-text-right">
+      <div class="column column has-text-left">
         <img :src="logo">
-      </div>
-
-      <div class="column has-text-right">
-        <p class="dir-rtl">تاریخ ثبت: {{ info.created }}</p>
       </div>
     </div>
 
+    <br>
+
     <div class="columns">
       <div class="column is-4" v-for="(productList, index) in productsInvoice" :key="index">
-        <table class="table is-bordered">
+        <table class="table is-bordered is-narrow">
           <thead>
             <tr>
               <th>#</th>
@@ -42,7 +43,7 @@
       </div>
       
       <div class="column is-4" v-if="productsInvoice.length > 12">
-        <table class="table is-bordered">
+        <table class="table is-bordered is-narrow">
           <thead>
             <tr>
               <th>#</th>
@@ -65,7 +66,7 @@
       </div>
 
       <div class="column is-4" v-if="productsInvoice.length > 24">
-        <table class="table is-bordered">
+        <table class="table is-bordered is-narrow">
           <thead>
             <tr>
               <th>#</th>
@@ -117,7 +118,7 @@
     <div v-if="productsInvoice.length > 3">
       <div class="columns" v-for="(productList, index) in productsInvoice" :key="index">
         <div class="column is-4" v-if="productsInvoice.length > 36">
-          <table class="table is-bordered">
+          <table class="table is-bordered is-narrow">
             <thead>
               <tr>
                 <th>#</th>
@@ -140,7 +141,7 @@
         </div>
 
         <div class="column is-4" v-if="productsInvoice.length > 56">
-          <table class="table is-bordered">
+          <table class="table is-bordered is-narrow">
             <thead>
               <tr>
                 <th>#</th>
@@ -163,7 +164,7 @@
         </div>
 
         <div class="column is-4" v-if="productsInvoice.length > 76">
-          <table class="table is-bordered">
+          <table class="table is-bordered is-narrow">
             <thead>
               <tr>
                 <th>#</th>
