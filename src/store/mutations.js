@@ -55,14 +55,14 @@ export const mutations = {
   },
 
   // Invoice
-  async INSERT_INVOICE(state, invoice) {
-    await Database.insertInvoice(invoice);
+  INSERT_INVOICE(state, invoice) {
+    Database.insertInvoice(invoice);
   },
-  async INSERT_INVOICE_PRODUCT(
+  INSERT_INVOICE_PRODUCT(
     state,
     { productList, latestInvoiceId, user_id }
   ) {
-    await Database.insertInvoiceProduct({
+    Database.insertInvoiceProduct({
       productList,
       latestInvoiceId,
       user_id
