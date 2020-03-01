@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section ref="loadingElement" class="container">
     <b-field grouped>
       <table class="table">
         <thead>
@@ -291,7 +291,7 @@ export default {
     removeFromProductList(index) {
       this.productList.splice(index, 1);
     },
-    async submit() {
+    submit() {
       // Check if product list is empty
       if (!this.productList[0].product.id) {
         this.$buefy.notification.open({
@@ -319,8 +319,12 @@ export default {
         return;
       }
 
+      const loadingComponent = this.$buefy.loading.open({
+        container: this.$refs.loadingElement.$el
+      });
+
       // Insert invoice in database
-      await this.$store.dispatch("insertInvoice", {
+      this.$store.dispatch("insertInvoice", {
         total_amount: this.newInvoice.total_amount,
         description: this.newInvoice.description,
         ceremony_address: this.newInvoice.ceremony_address,
@@ -341,11 +345,16 @@ export default {
       let latestInvoiceId = this.invoice[0].id ? this.invoice[0].id + 1 : 1;
 
       // Insert product and invoice info in database
-      await this.$store.dispatch("insertInvoiceProduct", {
-        productList: this.productList,
-        latestInvoiceId,
-        user_id: this.newInvoice.user_id
-      });
+      let self = this;
+      setTimeout(function () {
+        self.$store.dispatch("insertInvoiceProduct", {
+          productList: self.productList,
+          latestInvoiceId,
+          user_id: self.newInvoice.user_id
+        });
+      }, self.productList.length * 500);
+
+      loadingComponent.close();
 
       this.$buefy.notification.open({
         message: "اطلاعات با موفقیت ذخیره شد",
