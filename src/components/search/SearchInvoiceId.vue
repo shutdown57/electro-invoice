@@ -35,12 +35,16 @@ export default {
       invoices: "getInvoices"
     }),
     filteredDataArray() {
-      return this.invoices.filter(option => {
-        return option.id
-          .toString()
-          .toLowerCase()
-          .includes(this.id.toString());
-      });
+      if (this.invoices) {
+        return this.invoices.filter(option => {
+          return option.id
+            .toString()
+            .toLowerCase()
+            .includes(this.id.toString());
+        });
+      } else {
+        return [];
+      }
     }
   },
   methods: {
