@@ -37,7 +37,14 @@
       <b-input dir="rtl" type="textarea" v-model="user.address"></b-input>
     </b-field>
     <div class="has-text-centered">
-      <b-button size="is-medium" icon-right="plus" type="is-primary" @click="submit" outlined>ذخیره</b-button>
+      <b-button
+        size="is-medium"
+        icon-right="plus"
+        type="is-primary"
+        @click="submit"
+        outlined
+        >ذخیره</b-button
+      >
     </div>
   </section>
 </template>
@@ -199,3 +206,4 @@ export default {
   direction: rtl;
 }
 </style>
+
