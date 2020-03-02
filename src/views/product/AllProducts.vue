@@ -26,26 +26,40 @@
       focusable
     >
       <template slot-scope="props">
-        <b-table-column field="id" label="شماره" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
+        <b-table-column field="id" label="شماره" width="40" sortable numeric>
+          {{ props.row.id }}
+        </b-table-column>
 
-        <b-table-column field="name" label="نام محصول" sortable centered>{{ props.row.name }}</b-table-column>
+        <b-table-column field="name" label="نام محصول" sortable centered>
+          {{ props.row.name }}
+        </b-table-column>
 
-        <b-table-column field="price" label="قیمت واحد" sortable centered>{{ props.row.price ? props.row.price : 0 }}</b-table-column>
+        <b-table-column field="price" label="قیمت واحد" sortable centered>
+          {{ props.row.price ? props.row.price : 0 }}
+        </b-table-column>
 
         <b-table-column field="date" label="تاریخ بروز رسانی" sortable centered>
-          <span
-            class="tag is-info rtld"
-          >{{ props.row.updated ? new Date(props.row.updated).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-info rtld">
+            {{
+              props.row.updated
+                ? new Date(props.row.updated).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
-          <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
+          <span class="tag is-success rtld">
+            {{ new Date(props.row.created).toLocaleDateString() }}
+          </span>
         </b-table-column>
       </template>
     </b-table>
     <b-field>
       <p class="control has-text-centered">
-        <button class="button is-medium is-success" @click="print()">چاپ</button>
+        <button class="button is-medium is-success" @click="print()">
+          چاپ
+        </button>
       </p>
     </b-field>
   </section>
@@ -92,8 +106,9 @@ export default {
       return true;
     },
     print() {
-      this.$store.dispatch('printAllProducts', this.products)
+      this.$store.dispatch("printAllProducts", this.products);
     }
   }
 };
 </script>
+
