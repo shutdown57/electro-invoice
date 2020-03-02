@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <section ref="loadingElement" class="container">
     <b-field grouped>
       <table class="table">
         <thead>
@@ -50,6 +50,7 @@
                 :placeholder="singleProduct.name"
                 icon="cube-outline"
                 v-model="singleProduct.product"
+                @input="defaultPrice(productList, singleProduct.product, index)"
                 rounded
               >
                 <option
@@ -57,14 +58,21 @@
                   v-for="product in products"
                   :value="product"
                   :key="product.id"
-                >{{ product.name }}</option>
+                  >{{ product.name }}</option
+                >
               </b-select>
             </td>
             <td>
-              <b-input type="number" v-model.number="singleProduct.fee"></b-input>
+              <b-input
+                type="number"
+                v-model.number="singleProduct.fee"
+              ></b-input>
             </td>
             <td>
-              <b-input type="number" v-model.number="singleProduct.number"></b-input>
+              <b-input
+                type="number"
+                v-model.number="singleProduct.number"
+              ></b-input>
             </td>
             <td>
               <PriceCalculation
@@ -77,7 +85,10 @@
               <b-input v-model="singleProduct.description"></b-input>
             </td>
             <td>
-              <button class="button is-danger" @click="removeFromProductList(index)">
+              <button
+                class="button is-danger"
+                @click="removeFromProductList(index)"
+              >
                 <span class="icon is-small">
                   <b-icon icon="close"></b-icon>
                 </span>
@@ -89,32 +100,64 @@
     </b-field>
 
     <div class="has-text-right">
-      <button class="button is-success" @click="addToProductList">اضافه کردن محصول</button>
+      <button class="button is-success" @click="addToProductList">
+        اضافه کردن محصول
+      </button>
     </div>
     <hr />
 
     <b-field grouped>
       <b-field class="has-text-right" label="هزینه خسارت" expanded>
-        <b-input dir="rtl" type="number" v-model.number="invoice.damage_amount" rounded required></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="invoice.damage_amount"
+          rounded
+          required
+        ></b-input>
       </b-field>
       <b-field class="has-text-right" label="هزینه حمل و نقل" expanded>
-        <b-input dir="rtl" type="number" v-model.number="invoice.transport_amount" rounded required></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="invoice.transport_amount"
+          rounded
+          required
+        ></b-input>
       </b-field>
       <b-field class="has-text-right" label="هزینه اجناس" expanded>
-        <b-input dir="rtl" type="number" v-model.number="invoice.invoice_amount" rounded required></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="invoice.invoice_amount"
+          rounded
+          required
+        ></b-input>
       </b-field>
     </b-field>
 
     <b-field class="rtld" grouped>
       <b-field class="has-text-right" label="تاریخ شروع اجاره">
-        <datePicker format="jYYYY-jMM-jDD" v-model="invoice.rent_start"></datePicker>
+        <datePicker
+          format="jYYYY-jMM-jDD"
+          v-model="invoice.rent_start"
+        ></datePicker>
       </b-field>
       <b-field class="has-text-right" label="تاریخ اتمام اجاره">
-        <datePicker format="jYYYY-jMM-jDD" v-model="invoice.rent_end"></datePicker>
-      </b-field>&nbsp;&nbsp;&nbsp;&nbsp;
+        <datePicker
+          format="jYYYY-jMM-jDD"
+          v-model="invoice.rent_end"
+        ></datePicker> </b-field
+      >&nbsp;&nbsp;&nbsp;&nbsp;
       <b-field class="has-text-right" label="مدت اجاره">
-        <b-input dir="rtl" type="number" v-model.number="rent_time" rounded required></b-input>
-      </b-field>&nbsp;&nbsp;&nbsp;&nbsp;
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="rent_time"
+          rounded
+          required
+        ></b-input> </b-field
+      >&nbsp;&nbsp;&nbsp;&nbsp;
       <b-field class="has-text-right" label="نام مشتری">
         <b-select
           placeholder="انتخاب مشتری"
@@ -128,7 +171,8 @@
             v-for="client in clients"
             :value="client.id"
             :key="client.id"
-          >{{ client.name }}</option>
+            >{{ client.name }}</option
+          >
         </b-select>
       </b-field>
     </b-field>
@@ -140,38 +184,75 @@
           false-value="0"
           v-model="invoice.liquidation"
           size="is-medium"
-        >تسویه حساب انجام شده</b-checkbox>
+          >تسویه حساب انجام شده</b-checkbox
+        >
       </b-field>
       <b-field class="has-text-right" label="هزینه کل" expanded>
-        <b-input dir="rtl" type="number" v-model.number="total" rounded required></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="total"
+          rounded
+          required
+        ></b-input>
       </b-field>
     </b-field>
 
     <b-field grouped>
       <b-field class="has-text-right" label="تخفیف" expanded>
-        <b-input dir="rtl" type="number" v-model.number="invoice.discount" rounded></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="invoice.discount"
+          rounded
+        ></b-input>
       </b-field>
 
       <b-field class="has-text-right" label="بیعانه" expanded>
-        <b-input dir="rtl" type="number" v-model.number="invoice.deposit_amount" rounded></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="invoice.deposit_amount"
+          rounded
+        ></b-input>
       </b-field>
 
       <b-field class="has-text-right" label="مبلغ پرداختنی" expanded required>
-        <b-input dir="rtl" type="number" v-model.number="payable" rounded></b-input>
+        <b-input
+          dir="rtl"
+          type="number"
+          v-model.number="payable"
+          rounded
+        ></b-input>
       </b-field>
     </b-field>
 
     <b-field grouped>
       <b-field class="has-text-right" label="توضیحات" expanded>
-        <b-input dir="rtl" type="textarea" v-model="invoice.description"></b-input>
+        <b-input
+          dir="rtl"
+          type="textarea"
+          v-model="invoice.description"
+        ></b-input>
       </b-field>
       <b-field class="has-text-right" label="آدرس مراسم" expanded>
-        <b-input dir="rtl" type="textarea" v-model="invoice.ceremony_address"></b-input>
+        <b-input
+          dir="rtl"
+          type="textarea"
+          v-model="invoice.ceremony_address"
+        ></b-input>
       </b-field>
     </b-field>
 
     <div class="has-text-centered">
-      <b-button size="is-medium" icon-right="plus" type="is-primary" @click="submit" outlined>ذخیره</b-button>
+      <b-button
+        size="is-medium"
+        icon-right="plus"
+        type="is-primary"
+        @click="submit"
+        outlined
+        >ذخیره</b-button
+      >
     </div>
   </section>
 </template>
@@ -252,6 +333,11 @@ export default {
     await this.$store.dispatch("getInvoiceProducts", this.invoice.id);
   },
   methods: {
+    defaultPrice(list, product, index) {
+      if (product) {
+        this.productList[index].fee = product.price || 0;
+      }
+    },
     priceCalculation(fee, number) {
       return parseFloat(fee) * parseFloat(number);
     },
@@ -266,7 +352,7 @@ export default {
     removeFromProductList(index) {
       this.invoiceProducts.splice(index, 1);
     },
-    async submit() {
+    submit() {
       // Check if product list is empty
       if (this.invoiceProducts.length < 1) {
         this.$buefy.notification.open({
@@ -275,6 +361,10 @@ export default {
         });
         return;
       }
+
+      let loadingComponent = this.$buefy.loading.open({
+        container: this.$refs.loadingElement.$el
+      });
 
       let list = [];
       this.invoiceProducts.forEach(el => {
@@ -301,10 +391,15 @@ export default {
       }
 
       // Update invoice in database
-      await this.$store.dispatch("updateInvoice", {
-        invoice: this.invoice,
-        productList: list
-      });
+      let self = this;
+      setTimeout(function() {
+        self.$store.dispatch("updateInvoice", {
+          invoice: self.invoice,
+          productList: list
+        });
+      }, list.length * 500);
+
+      loadingComponent.close();
 
       this.$buefy.notification.open({
         message: "اطلاعات با موفقیت ذخیره شد",
@@ -324,3 +419,4 @@ export default {
   direction: rtl;
 }
 </style>
+
