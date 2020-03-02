@@ -18,41 +18,74 @@
       :sort-icon-size="sortIconSize"
     >
       <template slot-scope="props">
-        <b-table-column field="id" label="شماره" width="40" numeric>{{ props.row.id }}</b-table-column>
+        <b-table-column field="id" label="شماره" width="40" numeric>
+          {{ props.row.id }}
+        </b-table-column>
 
-        <b-table-column field="total_amount" label="هزینه کل فاکتور" centered>{{ props.row.total_amount }}</b-table-column>
+        <b-table-column field="total_amount" label="هزینه کل فاکتور" centered>
+          {{ props.row.total_amount }}
+        </b-table-column>
 
-        <b-table-column dir="rtl" field="name" label="نام و نام خانوادگی مشتری" centered>{{ props.row.name }}</b-table-column>
+        <b-table-column
+          dir="rtl"
+          field="name"
+          label="نام و نام خانوادگی مشتری"
+          centered
+        >
+          {{ props.row.name }}
+        </b-table-column>
 
         <b-table-column field="liquidation" label="تسویه" sortable centered>
           <b-icon :icon="isLiquidation(props.row.liquidation)"></b-icon>
         </b-table-column>
 
         <b-table-column field="rent_start" label="تاریخ شروع اجاره" centered>
-          <span
-            class="tag is-success"
-          >{{ props.row.rent_start ? new Date(props.row.rent_start).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-success">
+            {{
+              props.row.rent_start
+                ? new Date(props.row.rent_start).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
         <b-table-column field="rent_end" label="تاریخ اتمام اجاره" centered>
-          <span
-            class="tag is-success"
-          >{{ props.row.rent_end ? new Date(props.row.rent_end).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-success">
+            {{
+              props.row.rent_end
+                ? new Date(props.row.rent_end).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
         <b-table-column field="created" label="تاریخ ایجاد" centered>
-          <span
-            class="tag is-success"
-          >{{ props.row.created ? new Date(props.row.created).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-success">
+            {{
+              props.row.created
+                ? new Date(props.row.created).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
         <b-table-column field="updated" label="تاریخ بروزرسانی" centered>
-          <span
-            class="tag is-success"
-          >{{ props.row.updated ? new Date(props.row.updated).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-success">
+            {{
+              props.row.updated
+                ? new Date(props.row.updated).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
-        <b-table-column dir="rtl" field="ceremony_address" label="آدرس مراسم">{{ props.row.ceremony_address ? props.row.ceremony_address.substring(0, 7) + "..." : "" }}</b-table-column>
+        <b-table-column dir="rtl" field="ceremony_address" label="آدرس مراسم">
+          {{
+            props.row.ceremony_address
+              ? props.row.ceremony_address.substring(0, 7) + "..."
+              : ""
+          }}
+        </b-table-column>
       </template>
 
       <template slot="empty">
@@ -116,3 +149,4 @@ export default {
   }
 };
 </script>
+
