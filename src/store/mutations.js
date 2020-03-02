@@ -58,10 +58,7 @@ export const mutations = {
   INSERT_INVOICE(state, invoice) {
     Database.insertInvoice(invoice);
   },
-  INSERT_INVOICE_PRODUCT(
-    state,
-    { productList, latestInvoiceId, user_id }
-  ) {
+  INSERT_INVOICE_PRODUCT(state, { productList, latestInvoiceId, user_id }) {
     Database.insertInvoiceProduct({
       productList,
       latestInvoiceId,
@@ -102,8 +99,8 @@ export const mutations = {
   async GET_INVOICE_ID(state, invoice_id) {
     state.oneInvoice = await Database.getInvoiceId(invoice_id);
   },
-  async UPDATE_INVOICE(state, { invoice, productList }) {
-    await Database.updateInvoice({ invoice, productList });
+  UPDATE_INVOICE(state, { invoice, productList }) {
+    Database.updateInvoice({ invoice, productList });
   },
   async DELETE_INVOICE(state, invoice_id) {
     await Database.deleteInvoice(invoice_id);
