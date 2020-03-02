@@ -117,18 +117,18 @@ const oneInvoice = () => {
 const allInvoices = data => {
   let json = [];
   data.forEach(el => {
-    console.log(el)
+    console.log(el);
     json.push({
-      "شماره": el.id,
+      شماره: el.id,
       "هزینه اجناس": el.invoice_amount,
       "هزینه خسارت": el.damage_amount,
       "هزینه حمل و نقل": el.transport_amount,
       "هزینه کل": el.total_amount,
       "مدت اجاره": el.rent_period,
-      "تسویه": (el.liquidation == 0) ? "انجام نشده" : "انجام شده",
+      تسویه: el.liquidation == 0 ? "انجام نشده" : "انجام شده",
       "نام مشتری": el.name,
       "تاریخ پایان اجاره": el.rent_end,
-      "تخفیف": el.discount,
+      تخفیف: el.discount,
       "مبلغ پرداختنی": el.payable_amount,
       "تاریخ ایجاد": el.created
     });
