@@ -13,7 +13,7 @@
         rounded
       ></b-autocomplete>
     </b-field>
-    {{selected}}
+    {{ selected }}
   </section>
 </template>
 
