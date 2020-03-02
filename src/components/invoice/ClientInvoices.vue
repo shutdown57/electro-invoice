@@ -25,47 +25,76 @@
       focusable
     >
       <template slot-scope="props">
-        <b-table-column field="id" label="شماره" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
+        <b-table-column field="id" label="شماره" width="40" sortable numeric>
+          {{ props.row.id }}
+        </b-table-column>
 
-        <b-table-column field="name" label="هزینه کل" sortable centered>{{ props.row.total_amount }}</b-table-column>
-        <b-table-column field="name" label="مدت اجاره" sortable centered>{{ props.row.rent_period }}</b-table-column>
+        <b-table-column field="name" label="هزینه کل" sortable centered>
+          {{ props.row.total_amount }}
+        </b-table-column>
+
+        <b-table-column field="name" label="مدت اجاره" sortable centered>
+          {{ props.row.rent_period }}
+        </b-table-column>
+
         <b-table-column field="name" label="تسویه" sortable centered>
           <b-icon :icon="isLiquidation(props.row.liquidation)"></b-icon>
         </b-table-column>
-        <b-table-column field="name" label="نام مشتری" sortable centered>{{ props.row.name }}</b-table-column>
+
+        <b-table-column field="name" label="نام مشتری" sortable centered>
+          {{ props.row.name }}
+        </b-table-column>
 
         <b-table-column field="date" label="تاریخ شروع اجاره" sortable centered>
-          <span
-            class="tag is-info rtld"
-          >{{ props.row.rent_start ? new Date(props.row.rent_start).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-info rtld">
+            {{
+              props.row.rent_start
+                ? new Date(props.row.rent_start).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
-        <b-table-column field="date" label="تاریخ پایان اجاره" sortable centered>
-          <span
-            class="tag is-info rtld"
-          >{{ props.row.rent_end ? new Date(props.row.rent_end).toLocaleDateString() : '----------' }}</span>
+        <b-table-column
+          field="date"
+          label="تاریخ پایان اجاره"
+          sortable
+          centered
+        >
+          <span class="tag is-info rtld">
+            {{
+              props.row.rent_end
+                ? new Date(props.row.rent_end).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
         <b-table-column field="date" label="تاریخ بروز رسانی" sortable centered>
-          <span
-            class="tag is-info rtld"
-          >{{ props.row.updated ? new Date(props.row.updated).toLocaleDateString() : '----------' }}</span>
+          <span class="tag is-info rtld">
+            {{
+              props.row.updated
+                ? new Date(props.row.updated).toLocaleDateString()
+                : "----------"
+            }}
+          </span>
         </b-table-column>
 
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
-          <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
+          <span class="tag is-success rtld">
+            {{ new Date(props.row.created).toLocaleDateString() }}
+          </span>
         </b-table-column>
 
-        <b-table-column
-          field="description"
-          label="توضیحات"
-          sortable
-          centered
-        >{{ props.row.description }}</b-table-column>
+        <b-table-column field="description" label="توضیحات" sortable centered>
+          {{ props.row.description }}
+        </b-table-column>
       </template>
     </b-table>
     <b-field>
       <p class="control has-text-centered">
-        <button class="button is-medium is-success" @click="print()">چاپ</button>
+        <button class="button is-medium is-success" @click="print()">
+          چاپ
+        </button>
       </p>
     </b-field>
   </section>
@@ -126,4 +155,3 @@ export default {
   }
 };
 </script>
-
