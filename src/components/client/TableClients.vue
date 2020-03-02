@@ -24,27 +24,40 @@
       focusable
     >
       <template slot-scope="props">
-        <b-table-column field="id" label="شماره" width="40" sortable numeric>{{ props.row.id }}</b-table-column>
+        <b-table-column field="id" label="شماره" width="40" sortable numeric>{{
+          props.row.id
+        }}</b-table-column>
 
         <b-table-column
           field="name"
           label="نام و نام خانوادگی"
           sortable
           centered
-        >{{ props.row.name }}</b-table-column>
+          >{{ props.row.name }}</b-table-column
+        >
 
-        <b-table-column field="phone" label="تلفن ثابت" sortable centered>{{ props.row.phone }}</b-table-column>
+        <b-table-column field="phone" label="تلفن ثابت" sortable centered>{{
+          props.row.phone
+        }}</b-table-column>
 
-        <b-table-column field="mobile" label="تلفن همراه" sortable centered>{{ props.row.mobile }}</b-table-column>
+        <b-table-column field="mobile" label="تلفن همراه" sortable centered>{{
+          props.row.mobile
+        }}</b-table-column>
 
         <b-table-column field="date" label="تاریخ بروز رسانی" sortable centered>
           <span class="tag is-info rtld">
-            {{ props.row.updated ? new Date(props.row.updated).toLocaleDateString() : '----------' }}
+            {{
+              props.row.updated
+                ? new Date(props.row.updated).toLocaleDateString()
+                : "----------"
+            }}
           </span>
         </b-table-column>
 
         <b-table-column field="date" label="تاریخ ایجاد" sortable centered>
-          <span class="tag is-success rtld">{{ new Date(props.row.created).toLocaleDateString() }}</span>
+          <span class="tag is-success rtld">{{
+            new Date(props.row.created).toLocaleDateString()
+          }}</span>
         </b-table-column>
       </template>
     </b-table>
@@ -95,3 +108,4 @@ export default {
   }
 };
 </script>
+
