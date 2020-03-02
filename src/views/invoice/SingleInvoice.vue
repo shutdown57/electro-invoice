@@ -3,17 +3,29 @@
     <br />
     <b-field>
       <p class="control has-text-centered">
-        <button class="button is-medium is-success" @click="print()">چاپ</button>
-      </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="button is-medium is-success" @click="print()">
+          چاپ
+        </button>
+      </p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <p class="control has-text-centered">
-        <button class="button is-medium is-warning" @click="updateInvoice()">ویرایش</button>
-      </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="button is-medium is-warning" @click="updateInvoice()">
+          ویرایش
+        </button>
+      </p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <p class="control has-text-centered">
-        <button class="button is-medium is-danger" @click="deleteInvoice()">حذف</button>
+        <button class="button is-medium is-danger" @click="deleteInvoice()">
+          حذف
+        </button>
       </p>
     </b-field>
-    <hr>
-    <InvoiceClient id="single-invoice" :info="invoice" :products="products"></InvoiceClient>
+    <hr />
+    <InvoiceClient
+      id="single-invoice"
+      :info="invoice"
+      :products="products"
+    ></InvoiceClient>
   </section>
 </template>
 
