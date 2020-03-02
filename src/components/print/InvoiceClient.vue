@@ -1,25 +1,27 @@
 <template>
   <div>
-    <div class="has-text-centered">
-    </div>
+    <div class="has-text-centered"></div>
     <div class="columns">
       <div class="column has-text-right">
         <span class="dir-rtl">شماره فاکتور: {{ info.id }}</span>
-        &nbsp;
-        &nbsp;
+        &nbsp; &nbsp;
         <span class="dir-rtl">تاریخ ثبت: {{ info.created }}</span>
         <p class="dir-rtl">نام مشتری: {{ info.name }}</p>
       </div>
 
       <div class="column column has-text-left">
-        <img :src="logo">
+        <img :src="logo" />
       </div>
     </div>
 
-    <br>
+    <br />
 
     <div class="columns">
-      <div class="column is-4" v-for="(productList, index) in productsInvoice" :key="index">
+      <div
+        class="column is-4"
+        v-for="(productList, index) in productsInvoice"
+        :key="index"
+      >
         <table class="table is-bordered is-narrow">
           <thead>
             <tr>
@@ -41,7 +43,7 @@
           </tbody>
         </table>
       </div>
-      
+
       <div class="column is-4" v-if="productsInvoice.length > 12">
         <table class="table is-bordered is-narrow">
           <thead>
@@ -89,34 +91,61 @@
       </div>
     </div>
 
-    <br>
+    <br />
 
     <div class="columns">
       <div class="column">
-        <p class="dir-rtl"><strong>هزینه اجناس:</strong> {{ info.invoice_amount }}</p>
-        <p class="dir-rtl"><strong>هزینه حمل و نقل:</strong> {{ info.transport_amount }}</p>
-        <p class="dir-rtl"><strong>هزینه خسارت:</strong> {{ info.damage_amount }}</p>
-        <p class="dir-rtl"><strong>هزینه کل:</strong> {{ info.total_amount }}</p>
-        <p class="dir-rtl"><strong>بیعانه:</strong> {{ info.deposit_amount }}</p>
+        <p class="dir-rtl">
+          <strong>هزینه اجناس:</strong> {{ info.invoice_amount }}
+        </p>
+        <p class="dir-rtl">
+          <strong>هزینه حمل و نقل:</strong> {{ info.transport_amount }}
+        </p>
+        <p class="dir-rtl">
+          <strong>هزینه خسارت:</strong> {{ info.damage_amount }}
+        </p>
+        <p class="dir-rtl">
+          <strong>هزینه کل:</strong> {{ info.total_amount }}
+        </p>
+        <p class="dir-rtl">
+          <strong>بیعانه:</strong> {{ info.deposit_amount }}
+        </p>
       </div>
 
       <div class="column">
-        <p class="dir-rtl"><strong>تاریخ شروع اجاره:</strong> {{ info.rent_start }}</p>
-        <p class="dir-rtl"><strong>تاریخ اتمام اجاره:</strong> {{ info.rent_end }}</p>
-        <p class="dir-rtl"><strong>مدت اجاره:</strong> {{ info.rent_period }}</p>
-        <p class="dir-rtl"><strong>تسویه حساب:</strong> {{ (info.liquidation == 1) ? 'بله' : 'خیر' }}</p>
+        <p class="dir-rtl">
+          <strong>تاریخ شروع اجاره:</strong> {{ info.rent_start }}
+        </p>
+        <p class="dir-rtl">
+          <strong>تاریخ اتمام اجاره:</strong> {{ info.rent_end }}
+        </p>
+        <p class="dir-rtl">
+          <strong>مدت اجاره:</strong> {{ info.rent_period }}
+        </p>
+        <p class="dir-rtl">
+          <strong>تسویه حساب:</strong>
+          {{ info.liquidation == 1 ? "بله" : "خیر" }}
+        </p>
         <p class="dir-rtl"><strong>تخفیف:</strong> {{ info.discount }}</p>
       </div>
 
       <div class="column">
-        <p class="dir-rtl"><strong>آدرس مراسم:</strong> {{ info.ceremony_address }}</p>
+        <p class="dir-rtl">
+          <strong>آدرس مراسم:</strong> {{ info.ceremony_address }}
+        </p>
         <p class="dir-rtl"><strong>توضیحات:</strong> {{ info.description }}</p>
-        <p class="dir-rtl"><strong>مبلغ پرداختنی:</strong> {{ info.payable_amount }}</p>
+        <p class="dir-rtl">
+          <strong>مبلغ پرداختنی:</strong> {{ info.payable_amount }}
+        </p>
       </div>
     </div>
-    
+
     <div v-if="productsInvoice.length > 3">
-      <div class="columns" v-for="(productList, index) in productsInvoice" :key="index">
+      <div
+        class="columns"
+        v-for="(productList, index) in productsInvoice"
+        :key="index"
+      >
         <div class="column is-4" v-if="productsInvoice.length > 36">
           <table class="table is-bordered is-narrow">
             <thead>
@@ -193,46 +222,47 @@
 <script>
 // import JsPDF from "jspdf"
 // import html2canvas from "html2canvas"
-import * as logo from "@/assets/ameri.png"
+import * as logo from "@/assets/ameri.png";
 
 export default {
   name: "InvoiceClient",
-  props: ['info', 'products'],
+  props: ["info", "products"],
   data() {
     return {
       logo: logo
-    }
+    };
   },
   computed: {
-    productsLength: function () {
+    productsLength: function() {
       return this.products.length % 12;
     },
-    productsInvoice: function () {
+    productsInvoice: function() {
       let lists = [];
       let len = this.products.length;
 
-      if ( len > 0 ) {
-        lists.push(this.products.slice(0, 12))
+      if (len > 0) {
+        lists.push(this.products.slice(0, 12));
       }
-      if ( len > 12 ) {
-        lists.push(this.products.slice(12, 24))
-      } if ( len > 24 ) {
-        lists.push(this.products.slice(24, 36))
+      if (len > 12) {
+        lists.push(this.products.slice(12, 24));
       }
-      if ( len > 36 ) {
-        lists.push(this.products.slice(36, 56))
+      if (len > 24) {
+        lists.push(this.products.slice(24, 36));
       }
-      if ( len > 56 ) {
-        lists.push(this.products.slice(56, 76))
+      if (len > 36) {
+        lists.push(this.products.slice(36, 56));
       }
-      if ( len > 76 ) {
-        lists.push(this.products.slice(76, 96))
+      if (len > 56) {
+        lists.push(this.products.slice(56, 76));
+      }
+      if (len > 76) {
+        lists.push(this.products.slice(76, 96));
       }
 
       return lists;
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -242,7 +272,8 @@ export default {
 }
 
 @media print {
-  html, body {
+  html,
+  body {
     width: 210mm;
     height: 297mm;
     font-size: small;
