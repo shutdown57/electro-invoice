@@ -15,11 +15,23 @@
     </b-field>
 
     <b-field class="has-text-right" label="توضیحات">
-      <b-input dir="rtl" type="textarea" v-model="newProduct.description"></b-input>
+      <b-input
+        dir="rtl"
+        type="textarea"
+        v-model="newProduct.description"
+      ></b-input>
     </b-field>
 
     <div class="has-text-centered">
-      <b-button size="is-medium" icon-right="plus" type="is-primary" @click="submit" outlined>ذخیره</b-button>
+      <b-button
+        size="is-medium"
+        icon-right="plus"
+        type="is-primary"
+        @click="submit"
+        outlined
+      >
+        ذخیره
+      </b-button>
     </div>
   </section>
 </template>
@@ -70,3 +82,4 @@ export default {
   direction: rtl;
 }
 </style>
+
