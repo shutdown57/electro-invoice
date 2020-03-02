@@ -34,10 +34,23 @@
     </b-field>
 
     <b-field class="has-text-right" label="آدرس">
-      <b-input dir="rtl" pattern="(.*)" validation-message type="textarea" v-model="user.address"></b-input>
+      <b-input
+        dir="rtl"
+        pattern="(.*)"
+        validation-message
+        type="textarea"
+        v-model="user.address"
+      ></b-input>
     </b-field>
     <div class="has-text-centered">
-      <b-button size="is-medium" icon-right="plus" type="is-primary" @click="submit" outlined>ذخیره</b-button>
+      <b-button
+        size="is-medium"
+        icon-right="plus"
+        type="is-primary"
+        @click="submit"
+        outlined
+        >ذخیره</b-button
+      >
     </div>
   </section>
 </template>
@@ -193,3 +206,4 @@ export default {
   direction: rtl;
 }
 </style>
+
