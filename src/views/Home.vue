@@ -9,12 +9,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
-// import * as sqlite from 'sqlite3'
 import TableClients from "@/components/client/TableClients";
 import LiquidationInvoices from "@/components/invoice/LiquidationInvoices";
-// import { mapActions } from "vuex";
 
 export default {
   name: "home",
