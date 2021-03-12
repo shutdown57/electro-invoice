@@ -18,7 +18,7 @@
     "core-js": "^2.6.5",
     "handlebars": "^4.7.3",
     "html2canvas": "^1.0.0-rc.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "mdi": "^2.2.43",
     "moment-jalaali": "^0.8.3",
     "print-js": "^1.0.61",
